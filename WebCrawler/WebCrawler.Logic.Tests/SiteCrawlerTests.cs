@@ -30,7 +30,7 @@ public class SiteCrawlerTests
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var result = await _crawler.GetSitePagesWithTimingsAsync(testUrl);
+        var result = await _crawler.GetUrlsWithResponseTimeAsync(testUrl);
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);

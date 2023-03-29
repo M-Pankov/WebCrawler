@@ -23,9 +23,9 @@ public class SiteCrawler
         _httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<UrlWithResponseTime>> GetSitePagesWithTimingsAsync(Uri input)
+    public async Task<IEnumerable<UrlWithResponseTime>> GetUrlsWithResponseTimeAsync(Uri input)
     {
-        IList<UrlWithResponseTime> startUrls = new List<UrlWithResponseTime>();
+        IEnumerable<UrlWithResponseTime> startUrls = new List<UrlWithResponseTime>();
 
          var  startUrl  = new UrlWithResponseTime()
          {
@@ -34,7 +34,7 @@ public class SiteCrawler
         
         var crawlResult = await CrawlUrlAsync(startUrl,startUrls);
 
-        return crawlResult;
+        return crawlResult.OrderBy(x => x.ResponseTime);
     }
 
     private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime input, IEnumerable<UrlWithResponseTime> urls)
