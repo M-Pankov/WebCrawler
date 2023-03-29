@@ -6,87 +6,95 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Parsers;
+using WebCrawler.Logic.Validators;
 
 namespace WebCrawler.Logic.Crawlers;
 
 public class SiteCrawler
 {
+    private readonly HtmlParser _htmlParser;
+    private readonly UrlValidator _urlValidator;
+    private readonly HttpClient _httpClient;
 
-    private Uri _startUrl;
-    private HtmlParser _htmlParser;
-    private IList<Uri> _uniqueURLs = new List<Uri>();
-    private IList<PageWithTiming> _pagesWithTiming = new List<PageWithTiming>();
-
-    public SiteCrawler()
+    public SiteCrawler(HtmlParser htmlParser, UrlValidator urlValidator, HttpClient httpClient)
     {
-        _htmlParser = new HtmlParser();
+        _htmlParser = htmlParser;
+        _urlValidator = urlValidator;
+        _httpClient = httpClient;
     }
 
-    public async Task<IList<PageWithTiming>> GetSitePagesWithTimingsAsync(Uri input, HttpClient httpClient)
+    public async Task<IList<UrlWithResponseTime>> GetSitePagesWithTimingsAsync(Uri input)
     {
-        _startUrl = input;
-        _uniqueURLs.Add(input);
-
-        await CrawlUrlAsync(input, httpClient);
-
-        return _pagesWithTiming.OrderBy(x => x.Timing).ToList();
-    }
-
-    private async Task CrawlUrlAsync(Uri input, HttpClient httpClient)
-    {
-        var htmlString = await GetHtmlStringWithTimingAsync(input, httpClient);
-
-        var linksFromPage = _htmlParser.GetLinksFromHtmlString(input, htmlString).Where(x => !IsDisallowed(x));
-
-        if (!linksFromPage.Any())
+        IList<Uri> uniqueURLs = new List<Uri>
         {
-            return;
+            input
+        };
+
+        IList<UrlWithResponseTime> urlsWithResponseTime = new List<UrlWithResponseTime>();
+
+        urlsWithResponseTime = await CrawlUrlAsync(input, uniqueURLs, urlsWithResponseTime);
+
+        return urlsWithResponseTime.OrderBy(x => x.ResponseTime).ToList();
+    }
+
+    private async Task<IList<UrlWithResponseTime>> CrawlUrlAsync(Uri input, IList<Uri> uniqueURLs, IList<UrlWithResponseTime> urlsWithResponseTime)
+    {
+        var htmlStringWithResponseTime = await GetHtmlStringWithResponseTimeAsync(input);
+
+        urlsWithResponseTime = AddUrlWithResponseTime(urlsWithResponseTime, input, htmlStringWithResponseTime.ResponseTime);
+
+        var linksFromPage = _htmlParser.GetLinks(input, htmlStringWithResponseTime.HtmlString);
+
+        var validLinks = linksFromPage.Where(x => !_urlValidator.IsDisallowed(x, uniqueURLs, input)).ToArray();
+
+        if (!validLinks.Any())
+        {
+            return urlsWithResponseTime;
         }
 
-        foreach (var link in linksFromPage)
+        foreach (var link in validLinks)
         {
-            _uniqueURLs.Add(link);
-            await CrawlUrlAsync(link, httpClient);
+            uniqueURLs.Add(link);
         }
+
+        foreach (var link in validLinks)
+        {
+            urlsWithResponseTime = await CrawlUrlAsync(link, uniqueURLs, urlsWithResponseTime);
+        }
+
+        return urlsWithResponseTime;
     }
 
-    private async Task<string> GetHtmlStringWithTimingAsync(Uri input, HttpClient httpClient)
+    private async Task<HtmlStringWithResponseTime> GetHtmlStringWithResponseTimeAsync(Uri input)
     {
+
 
         var stopwatch = new Stopwatch();
         stopwatch.Restart();
 
-        var htmlString = await httpClient.GetStringAsync(input);
+        var htmlString = await _httpClient.GetStringAsync(input);
         stopwatch.Stop();
 
-        AddPageWithTiming(input, stopwatch);
-
-        return htmlString;
-    }
-
-    private void AddPageWithTiming(Uri input, Stopwatch stopwatch)
-    {
-        var pageWithTiming = new PageWithTiming()
+        var htmlStringWithResponseTime = new HtmlStringWithResponseTime()
         {
-            PageUrl = input,
-            Timing = stopwatch.ElapsedMilliseconds
+            HtmlString = htmlString,
+            ResponseTime = stopwatch.ElapsedMilliseconds
         };
 
-        _pagesWithTiming.Add(pageWithTiming);
+        return htmlStringWithResponseTime;
     }
 
-    private bool IsDisallowed(Uri input)
+    private IList<UrlWithResponseTime> AddUrlWithResponseTime(IList<UrlWithResponseTime> urlsWithResponseTime, Uri url, long responseTime)
     {
-        if (input == null || _uniqueURLs.Contains(input) || input.Host != _startUrl.Host)
+        var urlWithResponse = new UrlWithResponseTime()
         {
-            return true;
-        }
+            Url = url,
+            ResponseTime = responseTime
+        };
 
-        if (input.LocalPath.Contains('.'))
-        {
-            return true;
-        }
+        urlsWithResponseTime.Add(urlWithResponse);
 
-        return false;
+        return urlsWithResponseTime;
     }
+
 }
