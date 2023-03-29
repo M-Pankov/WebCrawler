@@ -15,7 +15,7 @@ public class SitemapCrawlerTests
     }
 
     [Fact]
-    public async Task GetLinksFromSitemap_TestUrl_ListOfLinksFromSitemap()
+    public async Task GetLinksFromSitemapAsync_TestUrl_ListOfLinksFromSitemap()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 

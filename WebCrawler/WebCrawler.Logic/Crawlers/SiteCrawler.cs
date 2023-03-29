@@ -67,7 +67,7 @@ public class SiteCrawler
     private void AddPageWithTiming(Uri input, Stopwatch stopwatch)
     {
         var pageWithTiming = new PageWithTiming()
-        { 
+        {
             PageUrl = input,
             Timing = stopwatch.ElapsedMilliseconds
         };

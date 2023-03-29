@@ -19,11 +19,11 @@ public class SiteCrawlerTests
     }
 
     [Fact]
-    public async void GetPagesWithTimings_TestUrl_ListOfLinksFromSiteWithTimings()
+    public async void GetSitePagesWithTimingsAsync_TestUrl_ListOfLinksFromSiteWithTimings()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var result = await _crawler.GetPagesWithTimings(testUrl, _httpClient);
+        var result = await _crawler.GetSitePagesWithTimingsAsync(testUrl, _httpClient);
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);
