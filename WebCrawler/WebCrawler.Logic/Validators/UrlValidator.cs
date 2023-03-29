@@ -5,9 +5,9 @@ namespace WebCrawler.Logic.Validators;
 
 public class UrlValidator
 {
-    public bool IsDisallowed(Uri input, IList<Uri> uniqueURLs, Uri parentUrl)
+    public bool IsDisallowed(Uri input, Uri parentUrl)
     {
-        if (input == null || uniqueURLs.Contains(input) || input.Host != parentUrl.Host)
+        if (input == null || input.Host != parentUrl.Host)
         {
             return true;
         }

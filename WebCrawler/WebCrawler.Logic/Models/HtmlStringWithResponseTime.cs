@@ -1,7 +1,7 @@
 ﻿namespace WebCrawler.Logic.Models;
 
-public class HtmlStringWithResponseTime
+public class HtmlContentWithResponseTime
 {
-    public string HtmlString { get; set; }
+    public string HtmlContent { get; set; }
     public long ResponseTime { get; set; }
 }

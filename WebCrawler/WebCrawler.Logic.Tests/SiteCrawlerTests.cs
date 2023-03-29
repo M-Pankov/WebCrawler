@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Parsers;
@@ -33,6 +34,6 @@ public class SiteCrawlerTests
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        Assert.Equal(23, result.Count);
+        Assert.Equal(23, result.Count());
     }
 }
