@@ -25,50 +25,45 @@ public class SiteCrawler
 
     public async Task<IList<UrlWithResponseTime>> GetSitePagesWithTimingsAsync(Uri input)
     {
-        IList<Uri> uniqueURLs = new List<Uri>
-        {
-            input
-        };
+        var crawlResult = new CrawlResult();
 
-        IList<UrlWithResponseTime> urlsWithResponseTime = new List<UrlWithResponseTime>();
+        crawlResult.UniqueUrls.Add(input);
 
-        urlsWithResponseTime = await CrawlUrlAsync(input, uniqueURLs, urlsWithResponseTime);
+        crawlResult = await CrawlUrlAsync(input,crawlResult);
 
-        return urlsWithResponseTime.OrderBy(x => x.ResponseTime).ToList();
+        return crawlResult.Results.OrderBy(x => x.ResponseTime).ToList();
     }
 
-    private async Task<IList<UrlWithResponseTime>> CrawlUrlAsync(Uri input, IList<Uri> uniqueURLs, IList<UrlWithResponseTime> urlsWithResponseTime)
+    private async Task<CrawlResult> CrawlUrlAsync(Uri input, CrawlResult crawlResult)
     {
         var htmlStringWithResponseTime = await GetHtmlStringWithResponseTimeAsync(input);
 
-        urlsWithResponseTime = AddUrlWithResponseTime(urlsWithResponseTime, input, htmlStringWithResponseTime.ResponseTime);
+        crawlResult = AddUrlWithResponseTime(crawlResult, input, htmlStringWithResponseTime.ResponseTime);
 
         var linksFromPage = _htmlParser.GetLinks(input, htmlStringWithResponseTime.HtmlString);
 
-        var validLinks = linksFromPage.Where(x => !_urlValidator.IsDisallowed(x, uniqueURLs, input)).ToArray();
+        var validLinks = linksFromPage.Where(x => !_urlValidator.IsDisallowed(x, crawlResult.UniqueUrls, input)).ToArray();
 
         if (!validLinks.Any())
         {
-            return urlsWithResponseTime;
+            return crawlResult;
         }
 
         foreach (var link in validLinks)
         {
-            uniqueURLs.Add(link);
+            crawlResult.UniqueUrls.Add(link);
         }
 
         foreach (var link in validLinks)
         {
-            urlsWithResponseTime = await CrawlUrlAsync(link, uniqueURLs, urlsWithResponseTime);
+            crawlResult = await CrawlUrlAsync(link, crawlResult);
         }
 
-        return urlsWithResponseTime;
+        return crawlResult;
     }
 
     private async Task<HtmlStringWithResponseTime> GetHtmlStringWithResponseTimeAsync(Uri input)
     {
-
-
         var stopwatch = new Stopwatch();
         stopwatch.Restart();
 
@@ -84,7 +79,7 @@ public class SiteCrawler
         return htmlStringWithResponseTime;
     }
 
-    private IList<UrlWithResponseTime> AddUrlWithResponseTime(IList<UrlWithResponseTime> urlsWithResponseTime, Uri url, long responseTime)
+    private CrawlResult AddUrlWithResponseTime(CrawlResult crawlResult, Uri url, long responseTime)
     {
         var urlWithResponse = new UrlWithResponseTime()
         {
@@ -92,9 +87,9 @@ public class SiteCrawler
             ResponseTime = responseTime
         };
 
-        urlsWithResponseTime.Add(urlWithResponse);
+        crawlResult.Results.Add(urlWithResponse);
 
-        return urlsWithResponseTime;
+        return crawlResult;
     }
 
 }
