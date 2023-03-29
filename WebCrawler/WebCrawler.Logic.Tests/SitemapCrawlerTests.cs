@@ -1,7 +1,9 @@
-using System;
+﻿using System;
+using System.Threading.Tasks;
+using WebCrawler.Logic.Crawlers;
 using Xunit;
 
-namespace WebCrawlService.Tests;
+namespace WebCrawler.Logic.Tests;
 
 public class SitemapCrawlerTests
 {
@@ -13,11 +15,11 @@ public class SitemapCrawlerTests
     }
 
     [Fact]
-    public async void GetLinksFromSitemap_TestUrl_ListOfLinksFromSitemap()
+    public async Task GetLinksFromSitemap_TestUrl_ListOfLinksFromSitemap()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var result = await _sitemapChecker.GetLinksFromSitemap(testUrl);
+        var result = await _sitemapChecker.GetLinksFromSitemapAsync(testUrl);
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);

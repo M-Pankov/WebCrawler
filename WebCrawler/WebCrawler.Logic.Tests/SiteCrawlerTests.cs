@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Net.Http;
+using WebCrawler.Logic.Crawlers;
 using Xunit;
 
-namespace WebCrawlService.Tests;
+namespace WebCrawler.Logic.Tests;
 
 public class SiteCrawlerTests
 {
@@ -18,11 +19,11 @@ public class SiteCrawlerTests
     }
 
     [Fact]
-    public async void StartCrawl_TestUrl_ListOfLinksFromSiteWithTimings()
+    public async void GetPagesWithTimings_TestUrl_ListOfLinksFromSiteWithTimings()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var result = await _crawler.StartCrawl(testUrl, _httpClient);
+        var result = await _crawler.GetPagesWithTimings(testUrl, _httpClient);
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);

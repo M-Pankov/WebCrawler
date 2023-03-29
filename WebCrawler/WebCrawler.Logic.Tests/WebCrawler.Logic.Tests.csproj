@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebCrawlService\WebCrawlService.csproj" />
+    <ProjectReference Include="..\WebCrawler.Logic\WebCrawler.Logic.csproj" />
   </ItemGroup>
 
 </Project>
