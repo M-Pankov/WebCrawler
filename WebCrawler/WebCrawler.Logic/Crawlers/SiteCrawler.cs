@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
+using WebCrawler.Logic.Enums;
+using WebCrawler.Logic.Loaders;
 using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Validators;
+using WebCrawler.Logic.Wrappers;
 
 namespace WebCrawler.Logic.Crawlers;
 
@@ -14,76 +15,57 @@ public class SiteCrawler
 {
     private readonly HtmlParser _htmlParser;
     private readonly UrlValidator _urlValidator;
-    private readonly HttpClient _httpClient;
+    private readonly HtmlLoader _htmlLoader;
 
-    public SiteCrawler(HtmlParser htmlParser, UrlValidator urlValidator, HttpClient httpClient)
+    public SiteCrawler(HtmlParser htmlParser, UrlValidator urlValidator, HtmlLoader htmlLoader)
     {
         _htmlParser = htmlParser;
         _urlValidator = urlValidator;
-        _httpClient = httpClient;
+        _htmlLoader = htmlLoader;
     }
 
-    public async Task<IEnumerable<UrlWithResponseTime>> GetUrlsWithResponseTimeAsync(Uri input)
+    public SiteCrawler()
+    {
+        _htmlLoader = new HtmlLoader();
+        _htmlParser = new HtmlParser();
+        _urlValidator = new UrlValidator();
+    }
+
+    public virtual async Task<IEnumerable<UrlWithResponseTime>> GetUrlsWithResponseTimeAsync(Uri input)
     {
         var startUrl = new UrlWithResponseTime()
         {
-            Url = input
+            Url = input,
+            FoundFrom = UrlFoundFrom.Site
         };
 
-        var crawlResult = await CrawlUrlAsync(startUrl);
-
-        return crawlResult.OrderBy(x => x.ResponseTime);
+        return await CrawlUrlAsync(startUrl);
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime input)
+    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime urlToCrawl)
     {
-        IList<UrlWithResponseTime> currentUrls = new List<UrlWithResponseTime>
+        var crawledUrls = new List<UrlWithResponseTime>
         {
-            input
+            urlToCrawl
         };
 
-        while (input != null)
+        while (urlToCrawl != null)
         {
-            var htmlContentWithResponseTime = await GetHtmlContentWithResponseTimeAsync(input.Url);
+            var htmlContentWithResponseTime = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(urlToCrawl.Url);
 
-            input.ResponseTime = htmlContentWithResponseTime.ResponseTime;
+            urlToCrawl.ResponseTime = htmlContentWithResponseTime.ResponseTime;
 
-            currentUrls = AddNewLinksFromHtmlContent(currentUrls, input, htmlContentWithResponseTime.HtmlContent);
+            var newLinks = FilterNewUrlsFromHtmlContent(crawledUrls, urlToCrawl, htmlContentWithResponseTime.HtmlContent);
 
-            input = currentUrls.FirstOrDefault(x => !x.ResponseTime.HasValue);
+            crawledUrls.AddRange(newLinks);
+
+            urlToCrawl = crawledUrls.FirstOrDefault(x => !x.ResponseTime.HasValue);
         }
 
-        return currentUrls;
+        return crawledUrls;
     }
 
-    private async Task<HtmlContentWithResponseTime> GetHtmlContentWithResponseTimeAsync(Uri input)
-    {
-        var stopwatch = new Stopwatch();
-        stopwatch.Restart();
-
-        var htmlString = await _httpClient.GetStringAsync(input);
-        stopwatch.Stop();
-
-        return new HtmlContentWithResponseTime()
-        {
-            HtmlContent = htmlString,
-            ResponseTime = stopwatch.ElapsedMilliseconds
-        };
-    }
-
-    private IList<UrlWithResponseTime> AddNewLinksFromHtmlContent(IList<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
-    {
-        var newLinks = GetNewLinksFromHtmlContent(currentLinks, input, htmlContent);
-
-        foreach (var link in newLinks)
-        {
-            currentLinks.Add(link);
-        }
-
-        return currentLinks;
-    }
-
-    private IEnumerable<UrlWithResponseTime> GetNewLinksFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
+    private IEnumerable<UrlWithResponseTime> FilterNewUrlsFromHtmlContent(IList<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
     {
         var currentUrls = currentLinks.Select(x => x.Url);
 
@@ -93,7 +75,8 @@ public class SiteCrawler
         return vaidUrlsFromPage.Where(x => !currentUrls.Contains(x))
             .Select(x => new UrlWithResponseTime()
             {
-                Url = x
+                Url = x,
+                FoundFrom = UrlFoundFrom.Site
             });
     }
 }

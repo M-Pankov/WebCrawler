@@ -24,7 +24,7 @@ public class HtmlParser
 
     private Uri GetAbsoluteUrlFromString(Uri parentUrl, string link)
     {
-        var lowerLink = link.ToLower();
+        var lowerLink = link.ToLower().TrimEnd('/');
 
         if (lowerLink.StartsWith("/"))
         {
