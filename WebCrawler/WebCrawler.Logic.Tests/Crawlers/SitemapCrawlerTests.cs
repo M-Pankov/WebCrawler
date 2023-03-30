@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
 using Xunit;
 
-namespace WebCrawler.Logic.Tests;
+namespace WebCrawler.Logic.Tests.Crawlers;
 
 public class SitemapCrawlerTests
 {

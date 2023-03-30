@@ -4,7 +4,7 @@ namespace WebCrawler.Logic.Validators;
 
 public class UrlValidator
 {
-    public bool IsDisallowed(Uri input, Uri baseUrl)
+    public virtual bool IsDisallowed(Uri input, Uri baseUrl)
     {
         if (input == null || input.Host != baseUrl.Host)
         {

@@ -73,7 +73,7 @@ public class SiteCrawler
 
     private IList<UrlWithResponseTime> AddNewLinksFromHtmlContent(IList<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
     {
-        var newLinks = GetNewValidLinksFromHtmlContent(currentLinks, input, htmlContent);
+        var newLinks = GetNewLinksFromHtmlContent(currentLinks, input, htmlContent);
 
         foreach (var link in newLinks)
         {
@@ -83,7 +83,7 @@ public class SiteCrawler
         return currentLinks;
     }
 
-    private IEnumerable<UrlWithResponseTime> GetNewValidLinksFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
+    private IEnumerable<UrlWithResponseTime> GetNewLinksFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
     {
         var currentUrls = currentLinks.Select(x => x.Url);
 
