@@ -7,7 +7,7 @@ namespace WebCrawler.Logic.Parsers;
 
 public class HtmlParser
 {
-    public IEnumerable<Uri> GetLinks(Uri parentUrl, string htmlString)
+    public IEnumerable<Uri> GetLinks(Uri baseUrl, string htmlString)
     {
         HtmlDocument htmlDocument = new HtmlDocument();
 
@@ -19,7 +19,7 @@ public class HtmlParser
                 .Where(u => !string.IsNullOrEmpty(u))
                 .Distinct();
 
-        return linksFromPage.Select(x => GetAbsoluteUrlFromString(parentUrl, x));
+        return linksFromPage.Select(x => GetAbsoluteUrlFromString(baseUrl, x));
     }
 
     private Uri GetAbsoluteUrlFromString(Uri parentUrl, string link)

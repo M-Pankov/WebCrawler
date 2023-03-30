@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace WebCrawler.Logic.Validators;
 
 public class UrlValidator
 {
-    public bool IsDisallowed(Uri input, Uri parentUrl)
+    public bool IsDisallowed(Uri input, Uri baseUrl)
     {
-        if (input == null || input.Host != parentUrl.Host)
+        if (input == null || input.Host != baseUrl.Host)
         {
             return true;
         }

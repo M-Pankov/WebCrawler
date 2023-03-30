@@ -25,32 +25,35 @@ public class SiteCrawler
 
     public async Task<IEnumerable<UrlWithResponseTime>> GetUrlsWithResponseTimeAsync(Uri input)
     {
-        IEnumerable<UrlWithResponseTime> startUrls = new List<UrlWithResponseTime>();
-
         var startUrl = new UrlWithResponseTime()
         {
-            Url = input,
+            Url = input
         };
 
-        var crawlResult = await CrawlUrlAsync(startUrl, startUrls);
+        var crawlResult = await CrawlUrlAsync(startUrl);
 
         return crawlResult.OrderBy(x => x.ResponseTime);
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime input, IEnumerable<UrlWithResponseTime> urls)
+    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime input)
     {
+        IList<UrlWithResponseTime> currentUrls = new List<UrlWithResponseTime>
+        {
+            input
+        };
+
         while (input != null)
         {
             var htmlContentWithResponseTime = await GetHtmlContentWithResponseTimeAsync(input.Url);
 
             input.ResponseTime = htmlContentWithResponseTime.ResponseTime;
 
-            urls = AddNewValidUrls(urls, input, htmlContentWithResponseTime);
+            currentUrls = AddNewLinksFromHtmlContent(currentUrls, input, htmlContentWithResponseTime.HtmlContent);
 
-            input = urls.FirstOrDefault(x => x.ResponseTime == null);
+            input = currentUrls.FirstOrDefault(x => !x.ResponseTime.HasValue);
         }
 
-        return urls;
+        return currentUrls;
     }
 
     private async Task<HtmlContentWithResponseTime> GetHtmlContentWithResponseTimeAsync(Uri input)
@@ -61,33 +64,36 @@ public class SiteCrawler
         var htmlString = await _httpClient.GetStringAsync(input);
         stopwatch.Stop();
 
-        var htmlStringWithResponseTime = new HtmlContentWithResponseTime()
+        return new HtmlContentWithResponseTime()
         {
             HtmlContent = htmlString,
             ResponseTime = stopwatch.ElapsedMilliseconds
         };
-
-        return htmlStringWithResponseTime;
     }
 
-    private IEnumerable<UrlWithResponseTime> AddNewValidUrls(IEnumerable<UrlWithResponseTime> urls, UrlWithResponseTime input, HtmlContentWithResponseTime htmlContentWithResponseTime)
+    private IList<UrlWithResponseTime> AddNewLinksFromHtmlContent(IList<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
     {
-        var currentLinks = urls.Select(x => x.Url);
+        var newLinks = GetNewValidLinksFromHtmlContent(currentLinks, input, htmlContent);
 
-        var vaidLinksFromPage = _htmlParser.GetLinks(input.Url, htmlContentWithResponseTime.HtmlContent)
-            .Where(x => !_urlValidator.IsDisallowed(x, input.Url));
-
-        var newValidLinks = vaidLinksFromPage.Where(x => !currentLinks.Contains(x));
-
-        foreach (var link in newValidLinks)
+        foreach (var link in newLinks)
         {
-            var urlWithResponse = new UrlWithResponseTime()
-            {
-                Url = link
-            };
-            urls = urls.Append(urlWithResponse);
+            currentLinks.Add(link);
         }
 
-        return urls;
+        return currentLinks;
+    }
+
+    private IEnumerable<UrlWithResponseTime> GetNewValidLinksFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
+    {
+        var currentUrls = currentLinks.Select(x => x.Url);
+
+        var vaidUrlsFromPage = _htmlParser.GetLinks(input.Url, htmlContent)
+           .Where(x => !_urlValidator.IsDisallowed(x, input.Url));
+
+        return vaidUrlsFromPage.Where(x => !currentUrls.Contains(x))
+            .Select(x => new UrlWithResponseTime()
+            {
+                Url = x
+            });
     }
 }

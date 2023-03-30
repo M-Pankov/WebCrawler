@@ -26,12 +26,10 @@ public class SitemapCrawler
 
     private async Task<IEnumerable<string>> LoadSitemapLinksAsync(Uri sitemapUrl)
     {
-        var sitemap = new Sitemap(sitemapUrl);
+        var sitemap = await _sitemapLoader.LoadAsync(sitemapUrl);
 
-        var loadedSitemap = await _sitemapLoader.LoadAsync(sitemap);
+        var linksFromSitemap = sitemap.Items.Select(x => HttpUtility.UrlDecode(x.Location.ToString().ToLower()));
 
-        var urlsFromSitemap = loadedSitemap.Items.Select(x => HttpUtility.UrlDecode(x.Location.ToString().ToLower()));
-
-        return urlsFromSitemap;
+        return linksFromSitemap;
     }
 }
