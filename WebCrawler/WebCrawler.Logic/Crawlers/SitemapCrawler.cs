@@ -1,5 +1,4 @@
-﻿using Louw.SitemapParser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +40,7 @@ public class SitemapCrawler
             .Select(x => new UrlWithResponseTime()
             {
                 Url = new Uri(x),
-                FoundFrom = UrlFoundFrom.Sitemap
+                UrlFoundLocation = UrlFoundLocation.Sitemap
             });
     }
 }

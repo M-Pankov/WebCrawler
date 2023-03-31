@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Loaders;
 using Xunit;
@@ -24,13 +21,14 @@ public class CrawlerTests
     }
 
     [Fact]
-
-    public async void Test1 ()
+    public async void Test1()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
         var result = await _crawler.FoundAllPagesWithResponseTime(testUrl);
 
         Assert.NotNull(result);
+        Assert.NotEmpty(result);
+        Assert.Equal(25, result.Count());
     }
 }

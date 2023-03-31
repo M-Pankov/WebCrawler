@@ -1,8 +1,8 @@
 ﻿namespace WebCrawler.Logic.Enums;
 
-public enum UrlFoundFrom
+public enum UrlFoundLocation
 {
     Site,
     Sitemap,
-    Both
+    SiteAndSitemap
 }

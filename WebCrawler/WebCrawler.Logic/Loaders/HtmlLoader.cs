@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Wrappers;
@@ -16,6 +13,11 @@ public class HtmlLoader
     public HtmlLoader()
     {
         _httpClientWrapper = new HttpClientWrapper();
+    }
+
+    public HtmlLoader(HttpClientWrapper httpClientWrapper)
+    {
+        _httpClientWrapper = httpClientWrapper;
     }
 
     public virtual async Task<HtmlContentWithResponseTime> GetHtmlContentWithResponseTimeAsync(Uri input)

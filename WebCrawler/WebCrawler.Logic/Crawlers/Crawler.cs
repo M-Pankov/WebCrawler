@@ -27,46 +27,46 @@ public class Crawler
 
         var sitemapUrls = await _sitemapCrawler.GetLinksFromSitemapAsync(input);
 
-        var compareResult = CompareToSitemap(crawledUrls, sitemapUrls);
+        var fullUrls = GetFullUrlsList(crawledUrls, sitemapUrls);
 
-        var result = await AddResponseTime(compareResult);
-
-        return result;
+        return await AddUrlsResponseTimeIfNotExsit(fullUrls);
     }
 
-    private IEnumerable<UrlWithResponseTime> CompareToSitemap(IEnumerable<UrlWithResponseTime> crawledUrls, IEnumerable<UrlWithResponseTime> urlsFromSitemap)
+    private IEnumerable<UrlWithResponseTime> GetFullUrlsList(IEnumerable<UrlWithResponseTime> crawledUrls, IEnumerable<UrlWithResponseTime> sitemapUrls)
+    {
+        var upadatedUrls = UpdateUrlsFoundLocation(crawledUrls, sitemapUrls).ToList();
+
+        var onlySitemapUrls = sitemapUrls.Where(x => !crawledUrls.Any(y => y.Url == x.Url));
+
+        upadatedUrls.AddRange(onlySitemapUrls);
+
+        return upadatedUrls;
+    }
+
+    private IEnumerable<UrlWithResponseTime> UpdateUrlsFoundLocation(IEnumerable<UrlWithResponseTime> crawledUrls, IEnumerable<UrlWithResponseTime> urlsFromSitemap)
     {
         foreach (var crawledUrl in crawledUrls)
         {
-            var urlInSitemap = urlsFromSitemap.FirstOrDefault(x => x.Url == crawledUrl.Url);
-
-            if (urlInSitemap == null)
+            if (!urlsFromSitemap.Any(x => x.Url == crawledUrl.Url))
             {
                 continue;
             }
 
-            crawledUrl.FoundFrom = UrlFoundFrom.Both;
+            crawledUrl.UrlFoundLocation = UrlFoundLocation.SiteAndSitemap;
         }
 
-        var resultList = crawledUrls.ToList();
-
-        var onlyInSitemapUrls = urlsFromSitemap.Where(x => !resultList.Exists(c => c.Url == x.Url));
-
-        resultList.AddRange(onlyInSitemapUrls);
-
-        return resultList;
+        return crawledUrls;
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> AddResponseTime(IEnumerable<UrlWithResponseTime> urls)
+    private async Task<IEnumerable<UrlWithResponseTime>> AddUrlsResponseTimeIfNotExsit(IEnumerable<UrlWithResponseTime> upadatedUrls)
     {
-        var urlWithoutTimings = urls.Where(x => !x.ResponseTime.HasValue);
-
-        foreach (var url in urlWithoutTimings)
+        foreach (var url in upadatedUrls.Where(x => !x.ResponseTime.HasValue))
         {
-            var contentWithTiming = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(url.Url);
-            url.ResponseTime = contentWithTiming.ResponseTime;
+            var htmlContentWithResponseTime = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(url.Url);
+
+            url.ResponseTime = htmlContentWithResponseTime.ResponseTime;
         }
 
-        return urls;
+        return upadatedUrls;
     }
 }

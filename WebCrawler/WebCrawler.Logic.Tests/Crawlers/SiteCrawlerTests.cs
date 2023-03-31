@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Loaders;
 using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Validators;
-using WebCrawler.Logic.Wrappers;
 using Xunit;
 
 namespace WebCrawler.Logic.Tests.Crawlers;

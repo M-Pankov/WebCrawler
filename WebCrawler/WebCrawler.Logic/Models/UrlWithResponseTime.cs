@@ -7,5 +7,5 @@ public class UrlWithResponseTime
 {
     public Uri Url { get; set; }
     public long? ResponseTime { get; set; }
-    public UrlFoundFrom FoundFrom { get; set; }
+    public UrlFoundLocation UrlFoundLocation { get; set; }
 }

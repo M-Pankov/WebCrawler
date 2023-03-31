@@ -22,16 +22,17 @@ public class HtmlParser
         return linksFromPage.Select(x => GetAbsoluteUrlFromString(baseUrl, x));
     }
 
-    private Uri GetAbsoluteUrlFromString(Uri parentUrl, string link)
+    private Uri GetAbsoluteUrlFromString(Uri baseUrl, string link)
     {
         var lowerLink = link.ToLower().TrimEnd('/');
 
         if (lowerLink.StartsWith("/"))
         {
-            return new Uri(parentUrl, lowerLink);
+            return new Uri(baseUrl, lowerLink);
         }
 
         Uri.TryCreate(lowerLink, UriKind.Absolute, out Uri uriResult);
+
         return uriResult;
     }
 }

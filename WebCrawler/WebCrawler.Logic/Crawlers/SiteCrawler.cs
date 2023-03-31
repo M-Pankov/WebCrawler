@@ -7,7 +7,6 @@ using WebCrawler.Logic.Loaders;
 using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Validators;
-using WebCrawler.Logic.Wrappers;
 
 namespace WebCrawler.Logic.Crawlers;
 
@@ -36,7 +35,7 @@ public class SiteCrawler
         var startUrl = new UrlWithResponseTime()
         {
             Url = input,
-            FoundFrom = UrlFoundFrom.Site
+            UrlFoundLocation = UrlFoundLocation.Site
         };
 
         return await CrawlUrlAsync(startUrl);
@@ -55,9 +54,9 @@ public class SiteCrawler
 
             urlToCrawl.ResponseTime = htmlContentWithResponseTime.ResponseTime;
 
-            var newLinks = FilterNewUrlsFromHtmlContent(crawledUrls, urlToCrawl, htmlContentWithResponseTime.HtmlContent);
+            var newUrls = FilterNewUrlsFromHtmlContent(crawledUrls, urlToCrawl, htmlContentWithResponseTime.HtmlContent);
 
-            crawledUrls.AddRange(newLinks);
+            crawledUrls.AddRange(newUrls);
 
             urlToCrawl = crawledUrls.FirstOrDefault(x => !x.ResponseTime.HasValue);
         }
@@ -65,7 +64,7 @@ public class SiteCrawler
         return crawledUrls;
     }
 
-    private IEnumerable<UrlWithResponseTime> FilterNewUrlsFromHtmlContent(IList<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
+    private IEnumerable<UrlWithResponseTime> FilterNewUrlsFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
     {
         var currentUrls = currentLinks.Select(x => x.Url);
 
@@ -76,7 +75,7 @@ public class SiteCrawler
             .Select(x => new UrlWithResponseTime()
             {
                 Url = x,
-                FoundFrom = UrlFoundFrom.Site
+                UrlFoundLocation = UrlFoundLocation.Site
             });
     }
 }
