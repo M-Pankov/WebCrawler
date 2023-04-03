@@ -45,7 +45,7 @@ public class CrawlerTests
 
         var sitemapCrawlerTestData = GetSitemapCrawlerTestData();
 
-        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse{ ResponseTime = 20 });
+        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse { ResponseTime = 20 });
 
         _siteCrawler.Setup(x => x.CrawlSiteAsync(testUrl)).ReturnsAsync(siteCrawlerTestData);
 
@@ -53,7 +53,7 @@ public class CrawlerTests
 
         var result = await _crawler.CrawlUrlAsync(testUrl);
 
-        _htmlLoader.Verify(x => x.GetHttpResponseAsync(It.IsAny<Uri>()),Times.Once);
+        _htmlLoader.Verify(x => x.GetHttpResponseAsync(It.IsAny<Uri>()), Times.Once);
         _siteCrawler.Verify(x => x.CrawlSiteAsync(testUrl), Times.Once);
         _sitemapCrawler.Verify(x => x.CrawlSitemapAsync(testUrl), Times.Once);
         Assert.NotNull(result);

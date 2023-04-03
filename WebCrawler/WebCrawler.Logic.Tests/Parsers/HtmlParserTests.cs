@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebCrawler.Logic.Parsers;
-using WebCrawler.Logic.Validators;
 using Xunit;
 
 namespace WebCrawler.Logic.Tests.Parsers;

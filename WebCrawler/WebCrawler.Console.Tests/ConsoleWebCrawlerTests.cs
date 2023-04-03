@@ -2,19 +2,16 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WebCrawler.Console.Services;
-using WebCrawler.Console;
 using WebCrawler.Logic.Crawlers;
+using WebCrawler.Logic.Enums;
 using WebCrawler.Logic.Models;
-using Xunit;
-using System.Net.Http;
 using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Services;
 using WebCrawler.Logic.Validators;
-using WebCrawler.Logic.Enums;
+using Xunit;
 
 namespace WebCrawler.Console.Tests;
 
@@ -35,10 +32,10 @@ public class ConsoleWebCrawlerTests
         _httpClient = new HttpClient();
         _htmlParser = new Mock<HtmlParser>();
         _urlValidator = new Mock<UrlValidator>();
-        _htmlLoaderService = new Mock<HtmlLoaderService>( _httpClient);
+        _htmlLoaderService = new Mock<HtmlLoaderService>(_httpClient);
         _sitemapLoaderService = new Mock<SitemapLoaderService>();
-        _sitemapCrawler = new Mock<SitemapCrawler>( _sitemapLoaderService.Object);
-        _siteCrawler = new Mock<SiteCrawler>( _htmlParser.Object, _urlValidator.Object, _htmlLoaderService.Object);
+        _sitemapCrawler = new Mock<SitemapCrawler>(_sitemapLoaderService.Object);
+        _siteCrawler = new Mock<SiteCrawler>(_htmlParser.Object, _urlValidator.Object, _htmlLoaderService.Object);
         _consoleService = new Mock<ConsoleService>();
         _crawler = new Mock<Crawler>(_siteCrawler.Object, _sitemapCrawler.Object, _htmlLoaderService.Object);
         _consoleWebCrawler = new ConsoleWebCrawler(_crawler.Object, _consoleService.Object);
