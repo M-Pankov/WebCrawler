@@ -23,13 +23,6 @@ public class SiteCrawler
         _htmlLoader = htmlLoader;
     }
 
-    public SiteCrawler()
-    {
-        _htmlLoader = new HtmlLoader();
-        _htmlParser = new HtmlParser();
-        _urlValidator = new UrlValidator();
-    }
-
     public virtual async Task<IEnumerable<UrlWithResponseTime>> GetUrlsWithResponseTimeAsync(Uri input)
     {
         var startUrl = new UrlWithResponseTime()
@@ -38,10 +31,10 @@ public class SiteCrawler
             UrlFoundLocation = UrlFoundLocation.Site
         };
 
-        return await CrawlUrlAsync(startUrl);
+        return await CrawlUrlsAsync(startUrl);
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlAsync(UrlWithResponseTime urlToCrawl)
+    private async Task<IEnumerable<UrlWithResponseTime>> CrawlUrlsAsync(UrlWithResponseTime urlToCrawl)
     {
         var crawledUrls = new List<UrlWithResponseTime>
         {
@@ -64,14 +57,12 @@ public class SiteCrawler
         return crawledUrls;
     }
 
-    private IEnumerable<UrlWithResponseTime> FilterNewUrlsFromHtmlContent(IEnumerable<UrlWithResponseTime> currentLinks, UrlWithResponseTime input, string htmlContent)
+    private IEnumerable<UrlWithResponseTime> FilterNewUrlsFromHtmlContent(IEnumerable<UrlWithResponseTime> crawledUrls, UrlWithResponseTime input, string htmlContent)
     {
-        var currentUrls = currentLinks.Select(x => x.Url);
-
         var vaidUrlsFromPage = _htmlParser.GetLinks(input.Url, htmlContent)
-           .Where(x => !_urlValidator.IsDisallowed(x, input.Url));
+           .Where(x => _urlValidator.IsAllowed(x, input.Url));
 
-        return vaidUrlsFromPage.Where(x => !currentUrls.Contains(x))
+        return vaidUrlsFromPage.Where(x => !crawledUrls.Any(y => y.Url == x))
             .Select(x => new UrlWithResponseTime()
             {
                 Url = x,

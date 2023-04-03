@@ -21,7 +21,7 @@ public class Crawler
         _htmlLoader = htmlLoader;
     }
 
-    public async Task<IEnumerable<UrlWithResponseTime>> FoundAllPagesWithResponseTime(Uri input)
+    public async Task<IEnumerable<UrlWithResponseTime>> FindAllPagesWithResponseTime(Uri input)
     {
         var crawledUrls = await _siteCrawler.GetUrlsWithResponseTimeAsync(input);
 
@@ -60,11 +60,11 @@ public class Crawler
 
     private async Task<IEnumerable<UrlWithResponseTime>> AddUrlsResponseTimeIfNotExsit(IEnumerable<UrlWithResponseTime> upadatedUrls)
     {
-        foreach (var url in upadatedUrls.Where(x => !x.ResponseTime.HasValue))
+        foreach (var updatedUrl in upadatedUrls.Where(x => !x.ResponseTime.HasValue))
         {
-            var htmlContentWithResponseTime = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(url.Url);
+            var htmlContentWithResponseTime = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(updatedUrl.Url);
 
-            url.ResponseTime = htmlContentWithResponseTime.ResponseTime;
+            updatedUrl.ResponseTime = htmlContentWithResponseTime.ResponseTime;
         }
 
         return upadatedUrls;

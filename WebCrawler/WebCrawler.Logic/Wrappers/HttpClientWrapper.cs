@@ -7,6 +7,7 @@ namespace WebCrawler.Logic.Wrappers;
 public class HttpClientWrapper
 {
     private readonly HttpClient _httpClient;
+
     public HttpClientWrapper()
     {
         _httpClient = new HttpClient();

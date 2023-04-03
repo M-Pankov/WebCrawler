@@ -7,6 +7,7 @@ namespace WebCrawler.Logic.Wrappers
     public class SitemapLoaderWrapper
     {
         private readonly SitemapLoader _sitemapLoader;
+
         public SitemapLoaderWrapper()
         {
             _sitemapLoader = new SitemapLoader();

@@ -10,11 +10,6 @@ public class HtmlLoader
 {
     private readonly HttpClientWrapper _httpClientWrapper;
 
-    public HtmlLoader()
-    {
-        _httpClientWrapper = new HttpClientWrapper();
-    }
-
     public HtmlLoader(HttpClientWrapper httpClientWrapper)
     {
         _httpClientWrapper = httpClientWrapper;

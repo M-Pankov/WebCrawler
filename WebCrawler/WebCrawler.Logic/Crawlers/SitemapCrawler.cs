@@ -13,11 +13,6 @@ public class SitemapCrawler
 {
     private readonly SitemapLoaderWrapper _sitemapLoaderWrapper;
 
-    public SitemapCrawler()
-    {
-        _sitemapLoaderWrapper = new SitemapLoaderWrapper();
-    }
-
     public SitemapCrawler(SitemapLoaderWrapper sitemapLoaderWrapper)
     {
         _sitemapLoaderWrapper = sitemapLoaderWrapper;

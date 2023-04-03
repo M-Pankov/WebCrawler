@@ -7,11 +7,11 @@ namespace WebCrawler.Logic.Parsers;
 
 public class HtmlParser
 {
-    public virtual IEnumerable<Uri> GetLinks(Uri baseUrl, string htmlString)
+    public virtual IEnumerable<Uri> GetLinks(Uri baseUrl, string htmlContent)
     {
         HtmlDocument htmlDocument = new HtmlDocument();
 
-        htmlDocument.LoadHtml(htmlString);
+        htmlDocument.LoadHtml(htmlContent);
 
         var linksFromPage = htmlDocument.DocumentNode
                 .Descendants("a")
