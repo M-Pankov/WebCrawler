@@ -41,7 +41,7 @@ public class ConsoleWebCrawlerTests
     }
 
     [Fact]
-    public async Task StartCrawlAsync_Url_ShouldReturnWelcomeMessageAndShutDown()
+    public async Task StartCrawlAsync_EmptyString_ShouldReturnWelcomeMessageAndShutDown()
     {
         var testInput = string.Empty;
 
