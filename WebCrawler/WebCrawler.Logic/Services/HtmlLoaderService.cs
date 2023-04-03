@@ -28,7 +28,7 @@ public class HtmlLoaderService
         return new HttpResponse()
         {
             HtmlContent = htmlString,
-            ResponseTime = stopwatch.ElapsedMilliseconds
+            ResponseTimeMs = stopwatch.ElapsedMilliseconds
         };
 
     }

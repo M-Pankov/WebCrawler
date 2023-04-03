@@ -33,15 +33,13 @@ public class ConsoleWebCrawler
 
         var urlInput = new Uri(input);
 
-        var results = await _crawler.CrawlUrlAsync(urlInput);
-
-        var printWithTiming = true;
+        var results = await _crawler.CrawlUrlsAsync(urlInput);
 
         PrintOnlySitemapUrls(results);
 
         PrintOnlySiteUrls(results);
 
-        PrintUrls(results, printWithTiming);
+        PrintAllUrlsWithTimings(results);
 
         _consoleService.ReadLine();
     }
@@ -49,8 +47,6 @@ public class ConsoleWebCrawler
     private void PrintOnlySitemapUrls(IEnumerable<CrawledUrl> results)
     {
         var onlySitemapUrls = results.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap);
-
-        var printWithTiming = false;
 
         if (!onlySitemapUrls.Any())
         {
@@ -61,14 +57,12 @@ public class ConsoleWebCrawler
 
         _consoleService.WriteLine("\nUrls founded in sitemap.xml but not founded after crawling a web site:");
 
-        PrintUrls(onlySitemapUrls, printWithTiming);
+        PrintUrls(onlySitemapUrls);
     }
 
     private void PrintOnlySiteUrls(IEnumerable<CrawledUrl> results)
     {
         var onlySiteUrls = results.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site);
-
-        var printWithTiming = false;
 
         if (!onlySiteUrls.Any())
         {
@@ -79,32 +73,32 @@ public class ConsoleWebCrawler
 
         _consoleService.WriteLine("\nUrls founded by crawling the website but not in sitemap.xml:");
 
-        PrintUrls(onlySiteUrls, printWithTiming);
+        PrintUrls(onlySiteUrls);
     }
 
-    private void PrintUrls(IEnumerable<CrawledUrl> results, bool printWithTiming)
+    private void PrintUrls(IEnumerable<CrawledUrl> results)
     {
         var counter = 1;
 
-        if (!printWithTiming)
+        _consoleService.WriteLine("\nUrl");
+
+        foreach (var result in results)
         {
-            _consoleService.WriteLine("\nUrl");
-
-            foreach (var result in results)
-            {
-                _consoleService.WriteLine($"{counter++}) {result.Url}");
-            }
-
-            return;
+            _consoleService.WriteLine($"{counter++}) {result.Url}");
         }
+    }
 
-        results = results.OrderBy(x => x.ResponseTime);
+    private void PrintAllUrlsWithTimings(IEnumerable<CrawledUrl> results)
+    {
+        var counter = 1;
+
+        results = results.OrderBy(x => x.ResponseTimeMs);
 
         _consoleService.WriteLine("\nUrl : Timing (ms)");
 
         foreach (var result in results)
         {
-            _consoleService.WriteLine($"{counter++}) {result.Url} : {result.ResponseTime}ms");
+            _consoleService.WriteLine($"{counter++}) {result.Url} : {result.ResponseTimeMs}ms");
         }
 
         var crawledFromSite = results.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site || x.UrlFoundLocation == UrlFoundLocation.Both).Count();

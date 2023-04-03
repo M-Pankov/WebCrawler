@@ -45,13 +45,13 @@ public class SiteCrawler
         {
             var httpResponse = await _htmlLoaderService.GetHttpResponseAsync(urlToCrawl.Url);
 
-            urlToCrawl.ResponseTime = httpResponse.ResponseTime;
+            urlToCrawl.ResponseTimeMs = httpResponse.ResponseTimeMs;
 
             var newUrls = GetNewUrls(crawledUrls, urlToCrawl, httpResponse.HtmlContent);
 
             crawledUrls.AddRange(newUrls);
 
-            urlToCrawl = crawledUrls.FirstOrDefault(x => !x.ResponseTime.HasValue);
+            urlToCrawl = crawledUrls.FirstOrDefault(x => !x.ResponseTimeMs.HasValue);
         }
 
         return crawledUrls;
@@ -59,10 +59,10 @@ public class SiteCrawler
 
     private IEnumerable<CrawledUrl> GetNewUrls(IEnumerable<CrawledUrl> crawledUrls, CrawledUrl urlToCrawl, string htmlContent)
     {
-        var vaidUrlsFromPage = _htmlParser.GetLinks(urlToCrawl.Url, htmlContent)
+        var validUrls = _htmlParser.GetLinks(urlToCrawl.Url, htmlContent)
            .Where(x => _urlValidator.IsAllowed(x, urlToCrawl.Url));
 
-        return vaidUrlsFromPage.Where(x => !crawledUrls.Any(y => y.Url == x))
+        return validUrls.Where(x => !crawledUrls.Any(y => y.Url == x))
             .Select(x => new CrawledUrl
             {
                 Url = x,

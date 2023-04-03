@@ -1,5 +1,4 @@
-﻿
-using Moq;
+﻿using Moq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -56,14 +55,9 @@ public class ConsoleWebCrawlerTests
     }
 
     [Fact]
-    public async Task StartCrawlAsync_Url_ShouldReturnTwoMessagesOneWithUrlFromSite()
+    public async Task StartCrawlAsync_Url_ShouldReturnUrlFromSite()
     {
-        var testInput = "https://www.litedb.org/";
-        var crawlerTestData = GetCrawlerTestData();
-
-        _crawler.Setup(x => x.CrawlUrlAsync(It.IsAny<Uri>())).ReturnsAsync(crawlerTestData);
-        _consoleService.Setup(x => x.WriteLine(It.IsAny<string>()));
-        _consoleService.Setup(x => x.ReadLine()).Returns(testInput);
+        SetupMockObjects();
 
         await _consoleWebCrawler.StartCrawlAsync();
 
@@ -72,14 +66,9 @@ public class ConsoleWebCrawlerTests
     }
 
     [Fact]
-    public async Task StartCrawlAsync_Url_ShouldReturnTwoMessagesOneWithUrlFromSitemap()
+    public async Task StartCrawlAsync_Url_ShouldReturnUrlFromSitemap()
     {
-        var testInput = "https://www.litedb.org/";
-        var crawlerTestData = GetCrawlerTestData();
-
-        _crawler.Setup(x => x.CrawlUrlAsync(It.IsAny<Uri>())).ReturnsAsync(crawlerTestData);
-        _consoleService.Setup(x => x.WriteLine(It.IsAny<string>()));
-        _consoleService.Setup(x => x.ReadLine()).Returns(testInput);
+        SetupMockObjects();
 
         await _consoleWebCrawler.StartCrawlAsync();
 
@@ -90,12 +79,7 @@ public class ConsoleWebCrawlerTests
     [Fact]
     public async Task StartCrawlAsync_Url_ShouldReturnUrlsWithTimings()
     {
-        var testInput = "https://www.litedb.org/";
-        var crawlerTestData = GetCrawlerTestData();
-
-        _crawler.Setup(x => x.CrawlUrlAsync(It.IsAny<Uri>())).ReturnsAsync(crawlerTestData);
-        _consoleService.Setup(x => x.WriteLine(It.IsAny<string>()));
-        _consoleService.Setup(x => x.ReadLine()).Returns(testInput);
+        SetupMockObjects();
 
         await _consoleWebCrawler.StartCrawlAsync();
 
@@ -108,12 +92,7 @@ public class ConsoleWebCrawlerTests
     [Fact]
     public async Task StartCrawlAsync_Url_ShouldReturnSumOfUrlsFromSiteAndSitemap()
     {
-        var testInput = "https://www.litedb.org/";
-        var crawlerTestData = GetCrawlerTestData();
-
-        _crawler.Setup(x => x.CrawlUrlAsync(It.IsAny<Uri>())).ReturnsAsync(crawlerTestData);
-        _consoleService.Setup(x => x.WriteLine(It.IsAny<string>()));
-        _consoleService.Setup(x => x.ReadLine()).Returns(testInput);
+        SetupMockObjects();
 
         await _consoleWebCrawler.StartCrawlAsync();
 
@@ -121,13 +100,23 @@ public class ConsoleWebCrawlerTests
         _consoleService.Verify(p => p.WriteLine("\nUrls found in sitemap: 2"), Times.Once);
     }
 
+    private void SetupMockObjects()
+    {
+        var testInput = "https://www.litedb.org/";
+        var crawlerTestData = GetCrawlerTestData();
+
+        _crawler.Setup(x => x.CrawlUrlsAsync(It.IsAny<Uri>())).ReturnsAsync(crawlerTestData);
+        _consoleService.Setup(x => x.WriteLine(It.IsAny<string>()));
+        _consoleService.Setup(x => x.ReadLine()).Returns(testInput);
+    }
+
     private IEnumerable<CrawledUrl> GetCrawlerTestData()
     {
         return new List<CrawledUrl>()
         {
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/"), UrlFoundLocation = UrlFoundLocation.Both , ResponseTime = 20},
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTime = 20},
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs/getting-started"), UrlFoundLocation = UrlFoundLocation.Sitemap, ResponseTime = 20}
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/"), UrlFoundLocation = UrlFoundLocation.Both , ResponseTimeMs = 20},
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTimeMs = 20},
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs/getting-started"), UrlFoundLocation = UrlFoundLocation.Sitemap, ResponseTimeMs = 20}
         };
     }
 }

@@ -37,78 +37,71 @@ public class CrawlerTests
     }
 
     [Fact]
-    public async Task CrawlUrlAsync_Url_ShouldReturnUrls()
+    public async Task CrawlUrlsAsync_Url_ShouldReturnExpectedUrls()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var siteCrawlerTestData = GetSiteCrawlerTestData();
+        SetupMockObjects();
 
-        var sitemapCrawlerTestData = GetSitemapCrawlerTestData();
-
-        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse { ResponseTime = 20 });
-
-        _siteCrawler.Setup(x => x.CrawlSiteAsync(testUrl)).ReturnsAsync(siteCrawlerTestData);
-
-        _sitemapCrawler.Setup(x => x.CrawlSitemapAsync(testUrl)).ReturnsAsync(sitemapCrawlerTestData);
-
-        var result = await _crawler.CrawlUrlAsync(testUrl);
+        var result = await _crawler.CrawlUrlsAsync(testUrl);
 
         _htmlLoader.Verify(x => x.GetHttpResponseAsync(It.IsAny<Uri>()), Times.Once);
         _siteCrawler.Verify(x => x.CrawlSiteAsync(testUrl), Times.Once);
         _sitemapCrawler.Verify(x => x.CrawlSitemapAsync(testUrl), Times.Once);
         Assert.NotNull(result);
         Assert.Equal(4, result.Count());
+        Assert.Contains(result, x => x.Url == new Uri("https://www.litedb.org/"));
+        Assert.Contains(result, x => x.Url == new Uri("https://www.litedb.org/docs"));
+        Assert.Contains(result, x => x.Url == new Uri("https://www.litedb.org/api"));
+        Assert.Contains(result, x => x.Url == new Uri("https://www.litedb.org/docs/getting-started"));
     }
 
     [Fact]
-    public async Task CrawlUrlAsync_Url_ShouldReturnUrlsWithResponseTime()
+    public async Task CrawlUrlsAsync_Url_ShouldSetResponseTime()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var siteCrawlerTestData = GetSiteCrawlerTestData();
+        SetupMockObjects();
 
-        var sitemapCrawlerTestData = GetSitemapCrawlerTestData();
+        var result = await _crawler.CrawlUrlsAsync(testUrl);
 
-        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse { ResponseTime = 20 });
-
-        _siteCrawler.Setup(x => x.CrawlSiteAsync(testUrl)).ReturnsAsync(siteCrawlerTestData);
-
-        _sitemapCrawler.Setup(x => x.CrawlSitemapAsync(testUrl)).ReturnsAsync(sitemapCrawlerTestData);
-
-        var result = await _crawler.CrawlUrlAsync(testUrl);
-
-        Assert.True(result.All(x => x.ResponseTime != null));
+        Assert.True(result.All(x => x.ResponseTimeMs.HasValue));
     }
 
     [Fact]
-    public async Task CrawlUrlAsync_Url_ShouldReturnUrlsWithExpectedFoundLocations()
+    public async Task CrawlUrlsAsync_Url_ShouldSetCorrectFoundLocations()
     {
         var testUrl = new Uri("https://www.litedb.org/");
 
-        var siteCrawlerTestData = GetSiteCrawlerTestData();
+        SetupMockObjects();
 
-        var sitemapCrawlerTestData = GetSitemapCrawlerTestData();
-
-        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse { ResponseTime = 20 });
-
-        _siteCrawler.Setup(x => x.CrawlSiteAsync(testUrl)).ReturnsAsync(siteCrawlerTestData);
-
-        _sitemapCrawler.Setup(x => x.CrawlSitemapAsync(testUrl)).ReturnsAsync(sitemapCrawlerTestData);
-
-        var result = await _crawler.CrawlUrlAsync(testUrl);
+        var result = await _crawler.CrawlUrlsAsync(testUrl);
 
         Assert.True(result.Where(x => x.UrlFoundLocation == UrlFoundLocation.Both).Count() == 2);
         Assert.True(result.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site).Count() == 1);
         Assert.True(result.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap).Count() == 1);
     }
 
+    private void SetupMockObjects()
+    {
+        var siteCrawlerTestData = GetSiteCrawlerTestData();
+
+        var sitemapCrawlerTestData = GetSitemapCrawlerTestData();
+
+        _htmlLoader.Setup(x => x.GetHttpResponseAsync(It.IsAny<Uri>())).ReturnsAsync(new HttpResponse { ResponseTimeMs = 20 });
+
+        _siteCrawler.Setup(x => x.CrawlSiteAsync(It.IsAny<Uri>())).ReturnsAsync(siteCrawlerTestData);
+
+        _sitemapCrawler.Setup(x => x.CrawlSitemapAsync(It.IsAny<Uri>())).ReturnsAsync(sitemapCrawlerTestData);
+    }
+
     private IEnumerable<CrawledUrl> GetSiteCrawlerTestData()
     {
         return new List<CrawledUrl>
         {
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTime = 20},
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTime = 20},
-            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/api"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTime = 20}
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTimeMs = 20},
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/docs"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTimeMs = 20},
+            new CrawledUrl(){ Url = new Uri("https://www.litedb.org/api"), UrlFoundLocation = UrlFoundLocation.Site , ResponseTimeMs = 20}
         };
     }
 

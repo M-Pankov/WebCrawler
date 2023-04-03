@@ -39,7 +39,7 @@ public class SitemapCrawlerTests
     }
 
     [Fact]
-    public async Task CrawlSitemapAsync_Url_ShouldReturnUrlsWithExpectedFoundLocation()
+    public async Task CrawlSitemapAsync_Url_ShouldSetCorrectFoundLocation()
     {
         var testBaseUrl = new Uri("https://jwt.io/");
 
@@ -53,7 +53,7 @@ public class SitemapCrawlerTests
     }
 
     [Fact]
-    public async Task CrawlSitemapAsync_Url_ShouldReturnUrlsWithoutResponseTime()
+    public async Task CrawlSitemapAsync_Url_ShouldNotSetResponseTime()
     {
         var testBaseUrl = new Uri("https://jwt.io/");
 
@@ -63,7 +63,7 @@ public class SitemapCrawlerTests
 
         var result = await _sitemapCrawler.CrawlSitemapAsync(testBaseUrl);
 
-        Assert.True(result.All(x => x.ResponseTime == null));
+        Assert.True(result.All(x => !x.ResponseTimeMs.HasValue));
     }
 
     private Sitemap SitemapLoaderTestData()

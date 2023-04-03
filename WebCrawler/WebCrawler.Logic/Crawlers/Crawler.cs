@@ -21,7 +21,7 @@ public class Crawler
         _htmlLoaderService = htmlLoaderService;
     }
 
-    public virtual async Task<IEnumerable<CrawledUrl>> CrawlUrlAsync(Uri input)
+    public virtual async Task<IEnumerable<CrawledUrl>> CrawlUrlsAsync(Uri input)
     {
         var siteUrls = await _siteCrawler.CrawlSiteAsync(input);
 
@@ -60,11 +60,11 @@ public class Crawler
 
     private async Task<IEnumerable<CrawledUrl>> AddResponseTimeAsync(IEnumerable<CrawledUrl> updatedUrls)
     {
-        foreach (var updatedUrl in updatedUrls.Where(x => !x.ResponseTime.HasValue))
+        foreach (var updatedUrl in updatedUrls.Where(x => !x.ResponseTimeMs.HasValue))
         {
             var httpResponse = await _htmlLoaderService.GetHttpResponseAsync(updatedUrl.Url);
 
-            updatedUrl.ResponseTime = httpResponse.ResponseTime;
+            updatedUrl.ResponseTimeMs = httpResponse.ResponseTimeMs;
         }
 
         return updatedUrls;
