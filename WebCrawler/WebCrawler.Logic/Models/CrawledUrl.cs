@@ -3,7 +3,7 @@ using WebCrawler.Logic.Enums;
 
 namespace WebCrawler.Logic.Models;
 
-public class UrlWithResponseTime
+public class CrawledUrl
 {
     public Uri Url { get; set; }
     public long? ResponseTime { get; set; }

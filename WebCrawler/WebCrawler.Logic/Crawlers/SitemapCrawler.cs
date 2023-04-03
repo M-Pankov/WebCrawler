@@ -5,34 +5,34 @@ using System.Threading.Tasks;
 using System.Web;
 using WebCrawler.Logic.Enums;
 using WebCrawler.Logic.Models;
-using WebCrawler.Logic.Wrappers;
+using WebCrawler.Logic.Services;
 
 namespace WebCrawler.Logic.Crawlers;
 
 public class SitemapCrawler
 {
-    private readonly SitemapLoaderWrapper _sitemapLoaderWrapper;
+    private readonly SitemapLoaderService _sitemapLoaderService;
 
-    public SitemapCrawler(SitemapLoaderWrapper sitemapLoaderWrapper)
+    public SitemapCrawler(SitemapLoaderService sitemapLoader)
     {
-        _sitemapLoaderWrapper = sitemapLoaderWrapper;
+        _sitemapLoaderService = sitemapLoader;
     }
 
-    public virtual async Task<IEnumerable<UrlWithResponseTime>> GetLinksFromSitemapAsync(Uri input)
+    public virtual async Task<IEnumerable<CrawledUrl>> CrawlSitemapAsync(Uri input)
     {
         var sitemapUrl = new Uri(input, "/sitemap.xml");
 
         return await LoadSitemapUrlsAsync(sitemapUrl);
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> LoadSitemapUrlsAsync(Uri sitemapUrl)
+    private async Task<IEnumerable<CrawledUrl>> LoadSitemapUrlsAsync(Uri sitemapUrl)
     {
-        var sitemap = await _sitemapLoaderWrapper.LoadAsync(sitemapUrl);
+        var sitemap = await _sitemapLoaderService.LoadAsync(sitemapUrl);
 
         var linksFromSitemap = sitemap.Items.Select(x => HttpUtility.UrlDecode(x.Location.ToString().ToLower().TrimEnd('/')));
 
         return linksFromSitemap.Distinct()
-            .Select(x => new UrlWithResponseTime()
+            .Select(x => new CrawledUrl()
             {
                 Url = new Uri(x),
                 UrlFoundLocation = UrlFoundLocation.Sitemap

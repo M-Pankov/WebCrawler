@@ -19,10 +19,10 @@ public class HtmlParser
                 .Where(u => !string.IsNullOrEmpty(u))
                 .Distinct();
 
-        return linksFromPage.Select(x => GetAbsoluteUrlFromString(baseUrl, x));
+        return linksFromPage.Select(x => GetAbsoluteUrl(baseUrl, x));
     }
 
-    private Uri GetAbsoluteUrlFromString(Uri baseUrl, string link)
+    private Uri GetAbsoluteUrl(Uri baseUrl, string link)
     {
         var lowerLink = link.ToLower().TrimEnd('/');
 

@@ -4,5 +4,5 @@ public enum UrlFoundLocation
 {
     Site,
     Sitemap,
-    SiteAndSitemap
+    Both
 }

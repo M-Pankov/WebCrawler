@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Enums;
-using WebCrawler.Logic.Loaders;
 using WebCrawler.Logic.Models;
+using WebCrawler.Logic.Services;
 
 namespace WebCrawler.Logic.Crawlers;
 
@@ -12,61 +12,61 @@ public class Crawler
 {
     private readonly SiteCrawler _siteCrawler;
     private readonly SitemapCrawler _sitemapCrawler;
-    private readonly HtmlLoader _htmlLoader;
+    private readonly HtmlLoaderService _htmlLoaderService;
 
-    public Crawler(SiteCrawler siteCrawler, SitemapCrawler sitemapCrawler, HtmlLoader htmlLoader)
+    public Crawler(SiteCrawler siteCrawler, SitemapCrawler sitemapCrawler, HtmlLoaderService htmlLoaderService)
     {
         _siteCrawler = siteCrawler;
         _sitemapCrawler = sitemapCrawler;
-        _htmlLoader = htmlLoader;
+        _htmlLoaderService = htmlLoaderService;
     }
 
-    public async Task<IEnumerable<UrlWithResponseTime>> FindAllPagesWithResponseTime(Uri input)
+    public virtual async Task<IEnumerable<CrawledUrl>> CrawlUrlAsync(Uri input)
     {
-        var crawledUrls = await _siteCrawler.GetUrlsWithResponseTimeAsync(input);
+        var siteUrls = await _siteCrawler.CrawlSiteAsync(input);
 
-        var sitemapUrls = await _sitemapCrawler.GetLinksFromSitemapAsync(input);
+        var sitemapUrls = await _sitemapCrawler.CrawlSitemapAsync(input);
 
-        var fullUrls = GetFullUrlsList(crawledUrls, sitemapUrls);
+        var allUrls = GetAllUrls(siteUrls, sitemapUrls);
 
-        return await AddUrlsResponseTimeIfNotExsit(fullUrls);
+        return await AddResponseTimeAsync(allUrls);
     }
 
-    private IEnumerable<UrlWithResponseTime> GetFullUrlsList(IEnumerable<UrlWithResponseTime> crawledUrls, IEnumerable<UrlWithResponseTime> sitemapUrls)
+    private IEnumerable<CrawledUrl> GetAllUrls(IEnumerable<CrawledUrl> siteUrls, IEnumerable<CrawledUrl> sitemapUrls)
     {
-        var upadatedUrls = UpdateUrlsFoundLocation(crawledUrls, sitemapUrls).ToList();
+        var updatedUrls = UpdateUrlsFoundLocation(siteUrls, sitemapUrls).ToList();
 
-        var onlySitemapUrls = sitemapUrls.Where(x => !crawledUrls.Any(y => y.Url == x.Url));
+        var onlySitemapUrls = sitemapUrls.Where(x => !siteUrls.Any(y => y.Url == x.Url));
 
-        upadatedUrls.AddRange(onlySitemapUrls);
+        updatedUrls.AddRange(onlySitemapUrls);
 
-        return upadatedUrls;
+        return updatedUrls;
     }
 
-    private IEnumerable<UrlWithResponseTime> UpdateUrlsFoundLocation(IEnumerable<UrlWithResponseTime> crawledUrls, IEnumerable<UrlWithResponseTime> urlsFromSitemap)
+    private IEnumerable<CrawledUrl> UpdateUrlsFoundLocation(IEnumerable<CrawledUrl> siteUrls, IEnumerable<CrawledUrl> sitemapUrls)
     {
-        foreach (var crawledUrl in crawledUrls)
+        foreach (var siteUrl in siteUrls)
         {
-            if (!urlsFromSitemap.Any(x => x.Url == crawledUrl.Url))
+            if (!sitemapUrls.Any(x => x.Url == siteUrl.Url))
             {
                 continue;
             }
 
-            crawledUrl.UrlFoundLocation = UrlFoundLocation.SiteAndSitemap;
+            siteUrl.UrlFoundLocation = UrlFoundLocation.Both;
         }
 
-        return crawledUrls;
+        return siteUrls;
     }
 
-    private async Task<IEnumerable<UrlWithResponseTime>> AddUrlsResponseTimeIfNotExsit(IEnumerable<UrlWithResponseTime> upadatedUrls)
+    private async Task<IEnumerable<CrawledUrl>> AddResponseTimeAsync(IEnumerable<CrawledUrl> updatedUrls)
     {
-        foreach (var updatedUrl in upadatedUrls.Where(x => !x.ResponseTime.HasValue))
+        foreach (var updatedUrl in updatedUrls.Where(x => !x.ResponseTime.HasValue))
         {
-            var htmlContentWithResponseTime = await _htmlLoader.GetHtmlContentWithResponseTimeAsync(updatedUrl.Url);
+            var httpResponse = await _htmlLoaderService.GetHttpResponseAsync(updatedUrl.Url);
 
-            updatedUrl.ResponseTime = htmlContentWithResponseTime.ResponseTime;
+            updatedUrl.ResponseTime = httpResponse.ResponseTime;
         }
 
-        return upadatedUrls;
+        return updatedUrls;
     }
 }

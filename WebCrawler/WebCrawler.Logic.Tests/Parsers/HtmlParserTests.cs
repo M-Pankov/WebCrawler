@@ -16,7 +16,7 @@ public class HtmlParserTests
     }
 
     [Fact]
-    public void GetLinks_UrlAndHtmlContentWithTwoLinks_ShouldReturnTwoUrls()
+    public void GetLinks_UrlAndHtmlContentWithTwoLocalPathUrls_ShouldReturnTwoUrls()
     {
         var testHtmlContent = "<a href=\"/docs/\"><span>DOCS</span></a> <a href=\"/api/\"><span>API</span></a>";
 
@@ -35,7 +35,7 @@ public class HtmlParserTests
     }
 
     [Fact]
-    public void GetLinks_UrlAndHtmlContentWithTwoUrls_ShouldReturnTwoUrls()
+    public void GetLinks_UrlAndHtmlContentWithTwoAbsoluteUrls_ShouldReturnTwoUrls()
     {
         var testHtmlContent = " <a href=\"https://github.com/mbdavid/litedb\">Fork me on GitHub</a>" +
             "<a href=\"https://www.nuget.org/packages/LiteDB\"><span>DOWNLOAD</span></a>";
