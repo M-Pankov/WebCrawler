@@ -101,11 +101,11 @@ public class ConsoleWebCrawler
             _consoleService.WriteLine($"{counter++}) {result.Url} : {result.ResponseTimeMs}ms");
         }
 
-        var crawledFromSite = results.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site || x.UrlFoundLocation == UrlFoundLocation.Both).Count();
+        var crawledFromSite = results.Count(x => x.UrlFoundLocation == UrlFoundLocation.Site || x.UrlFoundLocation == UrlFoundLocation.Both);
 
         _consoleService.WriteLine($"\nUrls (html documents) found after crawling a website: {crawledFromSite}");
 
-        var crawledFromSitemap = results.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap || x.UrlFoundLocation == UrlFoundLocation.Both).Count();
+        var crawledFromSitemap = results.Count(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap || x.UrlFoundLocation == UrlFoundLocation.Both);
 
         _consoleService.WriteLine($"\nUrls found in sitemap: {crawledFromSitemap}");
     }
