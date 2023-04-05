@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Http.Logging;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WebCrawler.Console.Services;
 using WebCrawler.Logic.Crawlers;
@@ -23,7 +25,8 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices( services =>
             {
-                services.AddHttpClient();
+                services.AddLogging(config => config.SetMinimumLevel(LogLevel.Warning));
+                services.AddHttpClient<HtmlLoaderService>();
                 services.AddScoped<HtmlParser>();
                 services.AddScoped<HtmlLoaderService>();
                 services.AddScoped<ConsoleService>();
