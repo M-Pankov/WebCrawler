@@ -10,6 +10,8 @@ using WebCrawler.Logic.Models;
 using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Services;
 using WebCrawler.Logic.Validators;
+using WebCrawler.Model;
+using WebCrawler.Repository;
 using Xunit;
 
 namespace WebCrawler.Console.Tests;
@@ -17,6 +19,8 @@ namespace WebCrawler.Console.Tests;
 public class ConsoleWebCrawlerTests
 {
     private readonly HttpClient _httpClient;
+    private readonly Mock<ApplicationDbContext> _context;
+    private readonly Mock<IUnitOfWork> _unitOfWork;
     private readonly Mock<HtmlParser> _htmlParser;
     private readonly Mock<UrlValidator> _urlValidator;
     private readonly Mock<HtmlLoaderService> _htmlLoaderService;
@@ -37,7 +41,9 @@ public class ConsoleWebCrawlerTests
         _siteCrawler = new Mock<SiteCrawler>(_htmlParser.Object, _urlValidator.Object, _htmlLoaderService.Object);
         _consoleService = new Mock<ConsoleService>();
         _crawler = new Mock<Crawler>(_siteCrawler.Object, _sitemapCrawler.Object, _htmlLoaderService.Object);
-        _consoleWebCrawler = new ConsoleWebCrawler(_crawler.Object, _consoleService.Object);
+        _context = new Mock<ApplicationDbContext>();
+        _unitOfWork = new Mock<IUnitOfWork>(_context.Object);
+        _consoleWebCrawler = new ConsoleWebCrawler(_crawler.Object, _consoleService.Object, _unitOfWork.Object);
     }
 
     [Fact]
