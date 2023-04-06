@@ -6,8 +6,6 @@ using WebCrawler.Console.Services;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Enums;
 using WebCrawler.Logic.Models;
-using WebCrawler.Model.Entities;
-using WebCrawler.Repository;
 
 namespace WebCrawler.Console;
 
@@ -15,13 +13,13 @@ public class ConsoleWebCrawler
 {
     private readonly Crawler _crawler;
     private readonly ConsoleService _consoleService;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly CrawlerRepositoryService _crawlerRepositoryService;
 
-    public ConsoleWebCrawler(Crawler crawler, ConsoleService consoleService, IUnitOfWork unitOfWork)
+    public ConsoleWebCrawler(Crawler crawler, ConsoleService consoleService, CrawlerRepositoryService crawlerRepositoryService)
     {
         _crawler = crawler;
         _consoleService = consoleService;
-        _unitOfWork = unitOfWork;
+        _crawlerRepositoryService = crawlerRepositoryService;
     }
 
     public async Task StartCrawlAsync()
@@ -45,7 +43,9 @@ public class ConsoleWebCrawler
 
         PrintAllUrlsWithTimings(results);
 
-        SaveCrawlResult(urlInput, results);
+        _crawlerRepositoryService.SaveCrawlResult(urlInput, results);
+
+        _consoleService.WriteLine("\nCrawl result saved to DataBase");
 
         _consoleService.ReadLine();
     }
@@ -114,26 +114,5 @@ public class ConsoleWebCrawler
         var crawledFromSitemap = results.Count(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap || x.UrlFoundLocation == UrlFoundLocation.Both);
 
         _consoleService.WriteLine($"\nUrls found in sitemap: {crawledFromSitemap}");
-
-    }
-
-    private void SaveCrawlResult(Uri uriInput, IEnumerable<CrawledUrl> results)
-    {
-        var crawlResult = new SiteCrawlResult()
-        {
-            Url = uriInput,
-            CrawledUrls = results.Select(x => new UrlCrawlResult()
-            {
-                Url = x.Url,
-                ResponseTimeMs = x.ResponseTimeMs,
-                UrlFoundLocation = x.UrlFoundLocation
-
-            }).ToList()
-        };
-
-        _unitOfWork.SiteCrawlResults.Add(crawlResult);
-        _unitOfWork.Complete();
-
-        _consoleService.WriteLine("Crawl result saved");
     }
 }

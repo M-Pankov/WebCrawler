@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using WebCrawler.Model.Entities;
+using System.Reflection;
+using WebCrawler.Persistence.Entities;
 
-namespace WebCrawler.Model;
+namespace WebCrawler.Persistence;
 
 public class ApplicationDbContext : DbContext
 {
@@ -10,8 +10,8 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<SiteCrawlResult> SiteCrawlResults { get; set; }
-    public DbSet<UrlCrawlResult> UrlCrawlResults { get; set; }
+    public DbSet<CrawledSite> CrawledSites { get; set; }
+    public DbSet<CrawledSitePage> CrawledSitePages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,9 +20,6 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<SiteCrawlResult>()
-            .Property(p => p.CrawlDate).ValueGeneratedOnAdd()
-            .HasDefaultValueSql("datetime('now')");
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
