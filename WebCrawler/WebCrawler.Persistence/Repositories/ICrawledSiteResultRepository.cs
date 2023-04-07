@@ -7,9 +7,10 @@ using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
 
-public interface ISiteUrlCrawlResultRepository
+public interface ICrawledSiteResultRepository
 {
-    void AddRange(IEnumerable<SiteUrlCrawlResult> results);
-    void Add(SiteUrlCrawlResult entity);
+    IEnumerable<CrawledSiteResult> GetAll();
+    void AddRange(IEnumerable<CrawledSiteResult> results);
+    void Add(CrawledSiteResult entity);
     int SaveChanges();
 }

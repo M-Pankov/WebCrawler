@@ -12,7 +12,7 @@ public static class DependencyInjection
         service.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         service.AddScoped<ICrawledSiteRepository, CrawledSiteRepository>();
-        service.AddScoped<ISiteUrlCrawlResultRepository, SiteUrlCrawlResultRepository>();
+        service.AddScoped<ICrawledSiteResultRepository, CrawledSiteResultRepository>();
 
         return service;
     }

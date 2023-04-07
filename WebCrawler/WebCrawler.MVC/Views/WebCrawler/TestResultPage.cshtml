@@ -1,0 +1,80 @@
+﻿@using WebCrawler.Logic.Enums;
+@model WebCrawler.MVC.ViewModels.CrawledSiteVm
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">@Model.Url</h2>
+        </div>
+    </div>
+    <br />
+    <h2>Perfomance</h2>
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Url
+                    </th>
+                    <th>
+                        Timings(ms)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model.SiteCrawlResult)
+                {
+                    <tr>
+                        <td width="70%">
+                            @obj.Url
+                        </td>
+                        <td width="30%">@obj.ResponseTimeMs</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <h2>Urls not found at website :</h2>
+    <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Url
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var obj in Model.SiteCrawlResult.Where(x=> x.UrlFoundLocation == UrlFoundLocation.Sitemap))
+            {
+                        <tr>
+                            <td width="100%">
+                                @obj.Url
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+    <br />
+    <h2>Urls not found at sitemap.xml :</h2>
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Url
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site))
+            {
+                <tr>
+                    <td width="100%">
+                        @obj.Url
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+</div>
+

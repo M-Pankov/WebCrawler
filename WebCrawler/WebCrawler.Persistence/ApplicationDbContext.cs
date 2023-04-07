@@ -11,7 +11,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<CrawledSite> CrawledSites { get; set; }
-    public DbSet<SiteUrlCrawlResult> SiteUrlCrawlResults { get; set; }
+    public DbSet<CrawledSiteResult> CrawledSiteResults { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

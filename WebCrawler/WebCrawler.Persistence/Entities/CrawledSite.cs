@@ -8,9 +8,9 @@ public class CrawledSite : BaseUrlEntity
 {
     public CrawledSite()
     {
-        CrawledUrls = new List<SiteUrlCrawlResult>();
+        CrawlResults = new List<CrawledSiteResult>();
     }
 
     public DateTime CrawlDate { get; set; }
-    public IEnumerable<SiteUrlCrawlResult> CrawledUrls { get; set; }
+    public IEnumerable<CrawledSiteResult> CrawlResults { get; set; }
 }

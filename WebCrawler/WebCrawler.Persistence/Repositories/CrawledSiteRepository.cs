@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
@@ -14,6 +15,11 @@ public class CrawledSiteRepository : ICrawledSiteRepository
     public void Add(CrawledSite entity)
     {
         _context.CrawledSites.Add(entity);
+    }
+
+    public IEnumerable<CrawledSite> GetAll()
+    {
+        return _context.CrawledSites;
     }
 
     public int SaveChanges()

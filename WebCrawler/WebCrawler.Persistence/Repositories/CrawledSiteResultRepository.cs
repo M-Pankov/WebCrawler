@@ -7,22 +7,27 @@ using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
 
-public class SiteUrlCrawlResultRepository : ISiteUrlCrawlResultRepository
+public class CrawledSiteResultRepository : ICrawledSiteResultRepository
 {
     private readonly ApplicationDbContext _context;
-    public SiteUrlCrawlResultRepository(ApplicationDbContext context)
+    public CrawledSiteResultRepository(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public void Add(SiteUrlCrawlResult entity)
+    public void Add(CrawledSiteResult entity)
     {
         _context.Add(entity);
     }
 
-    public void AddRange(IEnumerable<SiteUrlCrawlResult> results)
+    public void AddRange(IEnumerable<CrawledSiteResult> results)
     {
        _context.AddRange(results);
+    }
+
+    public IEnumerable<CrawledSiteResult> GetAll()
+    {
+        return _context.CrawledSiteResults;
     }
 
     public int SaveChanges()

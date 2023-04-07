@@ -10,8 +10,8 @@ namespace WebCrawler.Console.Services;
 public class CrawlerRepositoryService
 {
     private readonly ICrawledSiteRepository _crawledSitesRepository;
-    private readonly ISiteUrlCrawlResultRepository _siteUrlCrawlResultRepository;
-    public CrawlerRepositoryService(ICrawledSiteRepository crawledSitesRepository, ISiteUrlCrawlResultRepository siteUrlCrawlResultRepository)
+    private readonly ICrawledSiteResultRepository _siteUrlCrawlResultRepository;
+    public CrawlerRepositoryService(ICrawledSiteRepository crawledSitesRepository, ICrawledSiteResultRepository siteUrlCrawlResultRepository)
     {
         _crawledSitesRepository = crawledSitesRepository;
         _siteUrlCrawlResultRepository = siteUrlCrawlResultRepository;
@@ -27,7 +27,7 @@ public class CrawlerRepositoryService
 
         _crawledSitesRepository.Add(crawledSite);
 
-        var siteUrlCrawlResults = results.Select(x => new SiteUrlCrawlResult()
+        var siteUrlCrawlResults = results.Select(x => new CrawledSiteResult()
         {
             Url = x.Url,
             ResponseTimeMs = x.ResponseTimeMs,

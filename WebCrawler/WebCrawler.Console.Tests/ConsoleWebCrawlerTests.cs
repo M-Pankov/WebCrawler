@@ -19,7 +19,7 @@ public class ConsoleWebCrawlerTests
 {
     private readonly HttpClient _httpClient;
     private readonly Mock<ICrawledSiteRepository> _crawledSitesRepository;
-    private readonly Mock<ISiteUrlCrawlResultRepository> _siteUrlCrawlResultRepository;
+    private readonly Mock<ICrawledSiteResultRepository> _siteUrlCrawlResultRepository;
     private readonly Mock<CrawlerRepositoryService> _crawlerRepositoryService;
     private readonly Mock<HtmlParser> _htmlParser;
     private readonly Mock<UrlValidator> _urlValidator;
@@ -42,7 +42,7 @@ public class ConsoleWebCrawlerTests
         _consoleService = new Mock<ConsoleService>();
         _crawler = new Mock<Crawler>(_siteCrawler.Object, _sitemapCrawler.Object, _htmlLoaderService.Object);
         _crawledSitesRepository = new Mock<ICrawledSiteRepository>();
-        _siteUrlCrawlResultRepository = new Mock<ISiteUrlCrawlResultRepository>();
+        _siteUrlCrawlResultRepository = new Mock<ICrawledSiteResultRepository>();
         _crawlerRepositoryService = new Mock<CrawlerRepositoryService>(_crawledSitesRepository.Object, _siteUrlCrawlResultRepository.Object);
         _consoleWebCrawler = new ConsoleWebCrawler(_crawler.Object, _consoleService.Object, _crawlerRepositoryService.Object);
     }

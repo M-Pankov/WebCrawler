@@ -1,0 +1,62 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebCrawler.MVC.ViewModels.CrawledSiteVm>
+
+<div class="container p-3">
+    <div class="row-cols-3">
+        @using(Html.BeginForm("Index", "WebCrawler"))
+        {
+              <table>
+                   <tr>
+                       <td>Enter a wbsite: </td>
+                       <td><input type="text" name="input" /></td>
+                    <td><input type="submit" value="Test" /></td>
+                 </tr>
+              </table>
+              <br />
+              
+        }
+    </div>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Test Results</h2>
+        </div>
+    </div>
+    <br />
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Url
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="50%">
+                        @obj.Url
+                    </td>
+                    <td width="30%">@obj.CrawlDate</td>
+                    <td width="20%">
+                        <a asp-controller="WebCrawler" asp-action="TestResultPage" asp-route-Id="@obj.Id" class="btn btn-primary mx-1">Show Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page}))
+    </div>
+</div>
