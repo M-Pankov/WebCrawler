@@ -2,7 +2,7 @@
 
 namespace WebCrawler.Persistence.Entities;
 
-public abstract class BaseEntity
+public class BaseUrlEntity
 {
     public int Id { get; set; }
     public Uri Url { get; set; }

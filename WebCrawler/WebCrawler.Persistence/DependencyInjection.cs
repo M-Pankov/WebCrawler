@@ -7,10 +7,13 @@ namespace WebCrawler.Persistence.Extensions;
 
 public static class DependencyInjection
 {
-    public static void AddDbServices(this IServiceCollection service, IConfiguration configuration)
+    public static IServiceCollection AddDbServices(this IServiceCollection service, IConfiguration configuration)
     {
         service.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         service.AddScoped<ICrawledSiteRepository, CrawledSiteRepository>();
+        service.AddScoped<ISiteUrlCrawlResultRepository, SiteUrlCrawlResultRepository>();
+
+        return service;
     }
 }

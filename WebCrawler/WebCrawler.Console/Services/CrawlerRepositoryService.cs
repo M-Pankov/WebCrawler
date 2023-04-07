@@ -10,26 +10,33 @@ namespace WebCrawler.Console.Services;
 public class CrawlerRepositoryService
 {
     private readonly ICrawledSiteRepository _crawledSitesRepository;
-    public CrawlerRepositoryService(ICrawledSiteRepository crawledSitesRepository)
+    private readonly ISiteUrlCrawlResultRepository _siteUrlCrawlResultRepository;
+    public CrawlerRepositoryService(ICrawledSiteRepository crawledSitesRepository, ISiteUrlCrawlResultRepository siteUrlCrawlResultRepository)
     {
         _crawledSitesRepository = crawledSitesRepository;
+        _siteUrlCrawlResultRepository = siteUrlCrawlResultRepository;
     }
 
     public void SaveCrawlResult(Uri uriInput, IEnumerable<CrawledUrl> results)
     {
-        var crawlResult = new CrawledSite()
+        var crawledSite = new CrawledSite()
         {
             Url = uriInput,
-            CrawlDate = DateTime.Now,
-            CrawledPages = results.Select(x => new CrawledSitePage()
-            {
-                Url = x.Url,
-                ResponseTimeMs = x.ResponseTimeMs,
-                UrlFoundLocation = x.UrlFoundLocation
-            })
+            CrawlDate = DateTime.Now
         };
 
-        _crawledSitesRepository.Add(crawlResult);
+        _crawledSitesRepository.Add(crawledSite);
+
+        var siteUrlCrawlResults = results.Select(x => new SiteUrlCrawlResult()
+        {
+            Url = x.Url,
+            ResponseTimeMs = x.ResponseTimeMs,
+            UrlFoundLocation = x.UrlFoundLocation,
+            CrawledSite = crawledSite,
+        });
+
+        _siteUrlCrawlResultRepository.AddRange(siteUrlCrawlResults);
+
         _crawledSitesRepository.SaveChanges();
     }
 }

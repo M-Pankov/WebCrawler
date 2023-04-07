@@ -2,8 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
-using WebCrawler.Console.Extensions;
-using WebCrawler.Logic.Extensions;
+using WebCrawler.Logic;
 using WebCrawler.Persistence.Extensions;
 
 namespace WebCrawler.Console;

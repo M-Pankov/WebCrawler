@@ -14,7 +14,7 @@ public class CrawledSiteConfiguration : IEntityTypeConfiguration<CrawledSite>
 
         builder.Property(x => x.Url).IsRequired();
 
-        builder.HasMany(x => x.CrawledPages)
+        builder.HasMany(x => x.CrawledUrls)
             .WithOne(x => x.CrawledSite)
             .HasForeignKey(x => x.CrawledSiteId)
             .OnDelete(DeleteBehavior.Cascade);

@@ -2,7 +2,7 @@
 
 namespace WebCrawler.Persistence.Entities;
 
-public class CrawledSitePage : BaseEntity
+public class SiteUrlCrawlResult : BaseUrlEntity
 {
     public long? ResponseTimeMs { get; set; }
     public UrlFoundLocation UrlFoundLocation { get; set; }

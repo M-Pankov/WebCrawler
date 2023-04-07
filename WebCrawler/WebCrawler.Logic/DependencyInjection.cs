@@ -4,11 +4,11 @@ using WebCrawler.Logic.Parsers;
 using WebCrawler.Logic.Services;
 using WebCrawler.Logic.Validators;
 
-namespace WebCrawler.Logic.Extensions;
+namespace WebCrawler.Logic;
 
 public static class DependencyInjection
 {
-    public static void AddLogicServices(this IServiceCollection services)
+    public static IServiceCollection AddLogicServices(this IServiceCollection services)
     {
         services.AddScoped<UrlValidator>();
         services.AddHttpClient<HtmlLoaderService>();
@@ -18,5 +18,7 @@ public static class DependencyInjection
         services.AddScoped<SitemapCrawler>();
         services.AddScoped<SiteCrawler>();
         services.AddScoped<Crawler>();
+
+        return services;
     }
 }

@@ -1,4 +1,5 @@
-﻿using WebCrawler.Persistence.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
 

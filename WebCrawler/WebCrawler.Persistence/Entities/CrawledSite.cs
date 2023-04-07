@@ -4,13 +4,13 @@ using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Entities;
 
-public class CrawledSite : BaseEntity
+public class CrawledSite : BaseUrlEntity
 {
     public CrawledSite()
     {
-        CrawledPages = new List<CrawledSitePage>();
+        CrawledUrls = new List<SiteUrlCrawlResult>();
     }
 
     public DateTime CrawlDate { get; set; }
-    public IEnumerable<CrawledSitePage> CrawledPages { get; set; }
+    public IEnumerable<SiteUrlCrawlResult> CrawledUrls { get; set; }
 }
