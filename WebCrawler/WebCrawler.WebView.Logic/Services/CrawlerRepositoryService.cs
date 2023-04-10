@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.Persistence.Repositories;

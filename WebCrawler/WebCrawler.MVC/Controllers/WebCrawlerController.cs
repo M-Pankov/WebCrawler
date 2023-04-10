@@ -23,7 +23,7 @@ namespace WebCrawler.WebView.Controllers
 
             if (!page.HasValue)
             {
-
+                page = 0;
             }
 
             int pageSize = 5;
