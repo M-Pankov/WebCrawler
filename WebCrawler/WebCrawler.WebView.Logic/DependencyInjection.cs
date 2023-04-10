@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebCrawler.MVC.Services;
+using WebCrawler.WebView.Logic.Services;
 
-namespace WebCrawler.MVC;
+namespace WebCrawler.WebView.Logic;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWebCrawlerMvcServices(this IServiceCollection services)
+    public static IServiceCollection AddWebCrawlerWebViewServices(this IServiceCollection services)
     {
         services.AddScoped<CrawlerRepositoryService>();
         services.AddScoped<WebCrawlerControllerService>();

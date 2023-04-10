@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
-using WebCrawler.MVC.ViewModels;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.Persistence.Repositories;
+using WebCrawler.WebView.Logic.Helpers;
+using WebCrawler.WebView.Logic.ViewModels;
 
-namespace WebCrawler.MVC.Services;
+namespace WebCrawler.WebView.Logic.Services;
 
 public class CrawlerRepositoryService
 {
@@ -19,23 +21,25 @@ public class CrawlerRepositoryService
         _crawlSiteResultRepository = crawlSiteResultRepository;
     }
 
-    public IEnumerable<CrawledSiteVm> GetAllCrawledSites()
+    public IQueryable<CrawledSite> GetAllCrawledSites()
     {
-        var crawledSites = _crawledSiteRepository.GetAll();
+        var crawledSites = _crawledSiteRepository.GetAll().OrderByDescending(x => x.CrawlDate);
 
-        return crawledSites.Select(x => CrawledSiteToVm(x));
+        return crawledSites;
     }
 
-    public CrawledSiteVm GetCrawledSiteById(int id)
+    public CrawledSiteViewModel GetCrawledSiteById(int id)
     {
         var crawledSite = _crawledSiteRepository.GetAll().First(x => x.Id == id);
-        return CrawledSiteToVm(crawledSite);
+
+        return Mapper.CrawledSiteToViewModel(crawledSite);
     }
 
-    public IEnumerable<CrawledSiteResultVm> GetCrawledSiteResultsById(int id)
+    public IEnumerable<CrawledSiteResultViewModel> GetCrawledSiteResultsById(int id)
     {
         var crawledSiteResults = _crawlSiteResultRepository.GetAll().Where(x => x.CrawledSiteId == id);
-        return crawledSiteResults.Select(x => CrawledSiteResultToVm(x));
+
+        return crawledSiteResults.Select(x => Mapper.CrawledSiteResultToViewModel(x));
     }
 
     public void SaveSiteCrawlResult(Uri baseUrl, IEnumerable<CrawledUrl> results)
@@ -59,26 +63,5 @@ public class CrawlerRepositoryService
         _crawlSiteResultRepository.AddRange(siteUrlCrawlResults);
 
         _crawledSiteRepository.SaveChanges();
-    }
-
-    private CrawledSiteVm CrawledSiteToVm(CrawledSite crawledSite)
-    {
-        return new CrawledSiteVm()
-        {
-            Id = crawledSite.Id,
-            Url = crawledSite.Url,
-            CrawlDate = crawledSite.CrawlDate,
-        };
-    }
-
-    private CrawledSiteResultVm CrawledSiteResultToVm(CrawledSiteResult crawledSiteResult)
-    {
-        return new CrawledSiteResultVm()
-        {
-            Id = crawledSiteResult.Id,
-            Url = crawledSiteResult.Url,
-            UrlFoundLocation = crawledSiteResult.UrlFoundLocation,
-            ResponseTimeMs = crawledSiteResult.ResponseTimeMs,
-        };
     }
 }

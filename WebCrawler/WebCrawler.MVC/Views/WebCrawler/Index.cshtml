@@ -1,7 +1,6 @@
-﻿@using X.PagedList.Mvc.Core;
-@using X.PagedList;
-@using X.PagedList.Web.Common;
-@model IPagedList<WebCrawler.MVC.ViewModels.CrawledSiteVm>
+﻿@using WebCrawler.WebView.Logic.Helpers;
+@using WebCrawler.WebView.Logic.ViewModels;
+@model PagedList<CrawledSiteViewModel>
 
 <div class="container">
     <div class="row">
@@ -9,7 +8,7 @@
         {
             <table>
                 <tr>
-                    <td>Enter a website: </td>
+                    <td >Enter a website: </td>
                     <td> <input type="text" name="input" /></td>
                     <td> <input type="submit" value="Test" /></td>
                 </tr>
@@ -50,8 +49,17 @@
             }
         </tbody>
     </table>
-    <div class="pagination-sm">
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page}))
+    <div>
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-controller="WebCrawler" asp-action="Index"
+            asp-route-page="@(Model.PageIndex - 1)" class="btn btn-primary"> Previous </a>
+
+        }
+        @if(Model.HasNextPage)
+        {
+          <a asp-controller="WebCrawler" asp-action="Index"
+           asp-route-page="@(Model.PageIndex + 1)" class="btn btn-primary"> Next </a>
+        }
     </div>
 </div>

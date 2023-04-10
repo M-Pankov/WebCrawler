@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebCrawler.Logic.Crawlers;
-using WebCrawler.MVC.Services;
-using WebCrawler.MVC.ViewModels;
-using WebCrawler.Persistence.Entities;
-using X.PagedList;
+using WebCrawler.WebView.Logic.Services;
+using WebCrawler.WebView.Logic.ViewModels;
 
-namespace WebCrawler.MVC.Controllers
+namespace WebCrawler.WebView.Controllers
 {
     public class WebCrawlerController : Controller
     {
@@ -26,10 +21,17 @@ namespace WebCrawler.MVC.Controllers
                 await _webCrawlerControllerService.CrawlSite(input);
             }
 
-            var crawledSites = _webCrawlerControllerService.GetCrawledSites();
+            if (!page.HasValue)
+            {
+
+            }
+
             int pageSize = 5;
-            int pageNumber = (page ?? 1);
-            return View(crawledSites.ToPagedList(pageNumber,pageSize));
+
+            var crawledSites = _webCrawlerControllerService.GetCrawledSitesPagedList((int)page, pageSize);
+
+
+            return View(crawledSites);
         }
 
         public IActionResult TestResultPage(int id)

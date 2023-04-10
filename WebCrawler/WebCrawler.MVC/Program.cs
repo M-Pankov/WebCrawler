@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebCrawler.Persistence.Extensions;
 using WebCrawler.Logic;
-using WebCrawler.MVC;
+using WebCrawler.Persistence.Extensions;
+using WebCrawler.WebView.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddLogicServices();
 builder.Services.AddDbServices(builder.Configuration);
-builder.Services.AddWebCrawlerMvcServices();
+builder.Services.AddWebCrawlerWebViewServices();
 
 var app = builder.Build();
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Entities;
 

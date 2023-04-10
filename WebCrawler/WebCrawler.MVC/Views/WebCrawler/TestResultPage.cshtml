@@ -1,5 +1,4 @@
-﻿@using WebCrawler.Logic.Enums;
-@model WebCrawler.MVC.ViewModels.CrawledSiteVm
+﻿@model WebCrawler.WebView.Logic.ViewModels.CrawledSiteViewModel
 
 
 <div class="container p-3">
@@ -10,71 +9,88 @@
     </div>
     <br />
     <h2>Perfomance</h2>
-        <table class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        Url
-                    </th>
-                    <th>
-                        Timings(ms)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var obj in Model.SiteCrawlResult)
-                {
-                    <tr>
-                        <td width="70%">
-                            @obj.Url
-                        </td>
-                        <td width="30%">@obj.ResponseTimeMs</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <br />
-        <h2>Urls not found at website :</h2>
-    <table class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        Url
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach (var obj in Model.SiteCrawlResult.Where(x=> x.UrlFoundLocation == UrlFoundLocation.Sitemap))
-            {
-                        <tr>
-                            <td width="100%">
-                                @obj.Url
-                            </td>
-                        </tr>
-            }
-            </tbody>
-        </table>
-    <br />
-    <h2>Urls not found at sitemap.xml :</h2>
     <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>
                     Url
                 </th>
+                <th>
+                    Timings(ms)
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site))
+            @foreach (var obj in Model.SiteCrawlResult)
             {
                 <tr>
-                    <td width="100%">
+                    <td width="70%">
                         @obj.Url
                     </td>
+                    <td width="30%">@obj.ResponseTimeMs</td>
                 </tr>
             }
         </tbody>
     </table>
-    
+    <br />
+    @if (Model.OnlySitemapResults.Any())
+    {
+            <h2>Urls not found at website :</h2>
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Url
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var obj in Model.OnlySitemapResults)
+                {
+                    <tr>
+                        <td width="100%">
+                            @obj.Url
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+
+        <h3 width="100%">Urls list founded in sitemap.xml but not founded after crawling a website is empty.</h3>
+
+    }
+    <br />
+    @if (Model.OnlySiteResults.Any())
+    {
+        <h2>Urls not found at sitemap.xml :</h2>
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Url
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var obj in Model.OnlySiteResults)
+                {
+                    <tr>
+                        <td width="100%">
+                            @obj.Url
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3 width="100%">Urls list founded by crawling the website but not in sitemap.xml is empty.</h3>
+    }
 </div>
 

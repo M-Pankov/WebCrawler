@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
@@ -22,10 +19,10 @@ public class CrawledSiteResultRepository : ICrawledSiteResultRepository
 
     public void AddRange(IEnumerable<CrawledSiteResult> results)
     {
-       _context.AddRange(results);
+        _context.AddRange(results);
     }
 
-    public IEnumerable<CrawledSiteResult> GetAll()
+    public IQueryable<CrawledSiteResult> GetAll()
     {
         return _context.CrawledSiteResults;
     }
