@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebCrawler.MVC.Services.ControllerServices;
-using WebCrawler.MVC.Services.RepositotyServices;
+using WebCrawler.MVC.Services;
 
 namespace WebCrawler.MVC;
 

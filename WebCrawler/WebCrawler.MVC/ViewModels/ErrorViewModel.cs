@@ -1,4 +1,4 @@
-namespace WebCrawler.MVC.Models
+namespace WebCrawler.MVC.ViewModels
 {
     public class ErrorViewModel
     {

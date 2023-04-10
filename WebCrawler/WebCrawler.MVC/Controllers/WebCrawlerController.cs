@@ -4,9 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
-using WebCrawler.MVC.Models;
-using WebCrawler.MVC.Services.ControllerServices;
-using WebCrawler.MVC.Services.RepositotyServices;
+using WebCrawler.MVC.Services;
 using WebCrawler.MVC.ViewModels;
 using WebCrawler.Persistence.Entities;
 using X.PagedList;
@@ -36,7 +34,7 @@ namespace WebCrawler.MVC.Controllers
 
         public IActionResult TestResultPage(int id)
         {
-            var crawledSiteVm = _webCrawlerControllerService.GetCrawledSiteResult(id);
+            var crawledSiteVm = _webCrawlerControllerService.GetCrawledSiteResults(id);
 
             return View(crawledSiteVm);
         }

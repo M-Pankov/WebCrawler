@@ -1,20 +1,21 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList;
+@using X.PagedList.Web.Common;
 @model IPagedList<WebCrawler.MVC.ViewModels.CrawledSiteVm>
 
-<div class="container p-3">
-    <div class="row-cols-3">
-        @using(Html.BeginForm("Index", "WebCrawler"))
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Index", "WebCrawler"))
         {
-              <table>
-                   <tr>
-                       <td>Enter a wbsite: </td>
-                       <td><input type="text" name="input" /></td>
-                    <td><input type="submit" value="Test" /></td>
-                 </tr>
-              </table>
-              <br />
-              
+            <table>
+                <tr>
+                    <td>Enter a website: </td>
+                    <td> <input type="text" name="input" /></td>
+                    <td> <input type="submit" value="Test" /></td>
+                </tr>
+            </table>
+            <br />
+
         }
     </div>
     <div class="row pt-4">
@@ -31,9 +32,6 @@
                 </th>
                 <th>
                     Date
-                </th>
-                <th>
-                    
                 </th>
             </tr>
         </thead>
@@ -52,10 +50,7 @@
             }
         </tbody>
     </table>
-   
-
-    <div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div class="pagination-sm">
         @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page}))
     </div>

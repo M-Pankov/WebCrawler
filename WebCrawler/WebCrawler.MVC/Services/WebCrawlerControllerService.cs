@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
-using WebCrawler.MVC.Services.RepositotyServices;
 using WebCrawler.MVC.ViewModels;
 
-namespace WebCrawler.MVC.Services.ControllerServices;
+namespace WebCrawler.MVC.Services;
 
 public class WebCrawlerControllerService
 {
@@ -23,9 +22,13 @@ public class WebCrawlerControllerService
         return _crawlerRepositoryService.GetAllCrawledSites().OrderByDescending(x => x.CrawlDate);
     }
 
-    public CrawledSiteVm GetCrawledSiteResult(int id)
+    public CrawledSiteVm GetCrawledSiteResults(int id)
     {
-        return _crawlerRepositoryService.GetCrawledSiteResults(id);
+        var crawledSiteVm = _crawlerRepositoryService.GetCrawledSiteById(id);
+
+        crawledSiteVm.SiteCrawlResult = _crawlerRepositoryService.GetCrawledSiteResultsById(id).OrderBy(x => x.ResponseTimeMs);
+
+        return crawledSiteVm;
     }
 
     public async Task CrawlSite(string input)

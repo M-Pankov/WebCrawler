@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
