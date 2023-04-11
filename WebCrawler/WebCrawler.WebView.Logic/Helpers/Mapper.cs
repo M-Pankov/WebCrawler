@@ -33,7 +33,7 @@ public static class Mapper
         {
             TotalCount = crawledSites.TotalCount,
             TotalPages = crawledSites.TotalPages,
-            PageIndex = crawledSites.PageIndex,
+            PageNumber = crawledSites.PageNumber,
             PageSize = crawledSites.PageSize,
         };
 

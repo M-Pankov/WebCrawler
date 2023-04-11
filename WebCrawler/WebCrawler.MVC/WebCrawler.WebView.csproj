@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebCrawler.Logic\WebCrawler.Logic.csproj" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebCrawler.Persistence\WebCrawler.Persistence.csproj" />
     <ProjectReference Include="..\WebCrawler.WebView.Logic\WebCrawler.WebView.Logic.csproj" />
   </ItemGroup>

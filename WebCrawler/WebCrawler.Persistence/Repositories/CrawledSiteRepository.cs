@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
@@ -21,11 +23,16 @@ public class CrawledSiteRepository : ICrawledSiteRepository
         return _context.CrawledSites;
     }
 
-    public int SaveChanges()
+    public CrawledSite GetCrawledSiteById(int id)
+    {
+        return _context.CrawledSites.Include(x => x.CrawlResults).FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<int> SaveChangesAsync()
     {
         if (_context != null)
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
         return 0;
     }

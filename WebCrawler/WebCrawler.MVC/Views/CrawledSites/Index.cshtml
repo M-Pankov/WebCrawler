@@ -4,13 +4,13 @@
 
 <div class="container">
     <div class="row">
-        @using (Html.BeginForm("Index", "WebCrawler"))
+        @using (Html.BeginForm("CrawlSite", "CrawledSites"))
         {
             <table>
                 <tr>
                     <td>Enter a website: </td>
                     <td> <input type="text" name="input" /></td>
-                    <td> <input class ="btn btn-primary" type="submit" value="Test" /></td>
+                    <td> <input class="btn btn-primary" type="submit" value="Test" /></td>
                 </tr>
             </table>
             <br />
@@ -43,7 +43,7 @@
                     </td>
                     <td width="30%">@obj.CrawlDate</td>
                     <td width="20%">
-                        <a asp-controller="WebCrawler" asp-action="TestResultPage" asp-route-Id="@obj.Id" class="btn btn-primary mx-1">Show Details</a>
+                        <a asp-controller="CrawlResults" asp-action="SiteCrawlResult" asp-route-Id="@obj.Id" class="btn btn-primary mx-1">Show Details</a>
                     </td>
                 </tr>
             }
@@ -52,18 +52,18 @@
     <div>
         @if (Model.HasPreviousPage)
         {
-            <a asp-controller="WebCrawler" asp-action="Index"
-            asp-route-page="@(Model.PageIndex - 1)" class="btn btn-primary"> Previous </a>
+            <a asp-controller="CrawledSites" asp-action="Index"
+           asp-route-pageNumber="@(Model.PageNumber - 1)" class="btn btn-primary"> Previous </a>
 
         }
         @if (!Model.HasPreviousPage)
         {
             <button class="btn btn-dark"> Previous </button>
         }
-        @if(Model.HasNextPage)
+        @if (Model.HasNextPage)
         {
-          <a asp-controller="WebCrawler" asp-action="Index"
-           asp-route-page="@(Model.PageIndex + 1)" class="btn btn-primary"> Next </a>
+            <a asp-controller="CrawledSites" asp-action="Index"
+           asp-route-pageNumber="@(Model.PageNumber + 1)" class="btn btn-primary"> Next </a>
         }
         @if (!Model.HasNextPage)
         {

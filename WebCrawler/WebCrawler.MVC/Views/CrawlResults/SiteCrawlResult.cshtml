@@ -35,7 +35,7 @@
     <br />
     @if (Model.OnlySitemapResults.Any())
     {
-            <h2>Urls not found at website :</h2>
+        <h2>Urls not found at website :</h2>
         <table class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -58,7 +58,7 @@
         </table>
     }
 
-    @if(!Model.OnlySitemapResults.Any())
+    @if (!Model.OnlySitemapResults.Any())
     {
 
         <h3 width="100%">Urls list founded in sitemap.xml but not founded after crawling a website is empty.</h3>
@@ -89,7 +89,7 @@
             </tbody>
         </table>
     }
-    @if(!Model.OnlySiteResults.Any())
+    @if (!Model.OnlySiteResults.Any())
     {
         <h3 width="100%">Urls list founded by crawling the website but not in sitemap.xml is empty.</h3>
     }

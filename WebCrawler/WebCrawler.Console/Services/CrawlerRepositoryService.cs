@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.Persistence.Repositories;
@@ -17,7 +19,7 @@ public class CrawlerRepositoryService
         _siteUrlCrawlResultRepository = siteUrlCrawlResultRepository;
     }
 
-    public void SaveCrawlResult(Uri uriInput, IEnumerable<CrawledUrl> results)
+    public async Task SaveCrawlResultAsync(Uri uriInput, IEnumerable<CrawledUrl> results)
     {
         var crawledSite = new CrawledSite()
         {
@@ -37,6 +39,6 @@ public class CrawlerRepositoryService
 
         _siteUrlCrawlResultRepository.AddRange(siteUrlCrawlResults);
 
-        _crawledSitesRepository.SaveChanges();
+        await _crawledSitesRepository.SaveChangesAsync();
     }
 }

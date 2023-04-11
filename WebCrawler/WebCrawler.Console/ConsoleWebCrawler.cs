@@ -43,7 +43,7 @@ public class ConsoleWebCrawler
 
         PrintAllUrlsWithTimings(results);
 
-        _crawlerRepositoryService.SaveCrawlResult(urlInput, results);
+        await _crawlerRepositoryService.SaveCrawlResultAsync(urlInput, results);
 
         _consoleService.WriteLine("\nCrawl result saved to DataBase");
 

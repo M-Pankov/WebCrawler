@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Persistence", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebView", "WebCrawler.MVC\WebCrawler.WebView.csproj", "{71E93984-63D9-4D37-88EF-A19BF392FFA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrawler.WebView.Logic", "WebCrawler.WebView.Logic\WebCrawler.WebView.Logic.csproj", "{CA025224-CFB9-495D-AB84-7E4AA9EB6DFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebView.Logic", "WebCrawler.WebView.Logic\WebCrawler.WebView.Logic.csproj", "{CA025224-CFB9-495D-AB84-7E4AA9EB6DFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

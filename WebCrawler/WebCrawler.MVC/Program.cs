@@ -10,14 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddLogicServices();
 builder.Services.AddDbServices(builder.Configuration);
-builder.Services.AddWebCrawlerWebViewServices();
+builder.Services.AddWebViewServices();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/CrawledSites/Error");
     app.UseHsts();
 }
 
@@ -30,6 +30,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=WebCrawler}/{action=Index}/{id?}");
+    pattern: "{controller=CrawledSites}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.Persistence.Repositories;
@@ -28,19 +29,17 @@ public class CrawlerRepositoryService
 
     public CrawledSiteViewModel GetCrawledSiteById(int id)
     {
-        var crawledSite = _crawledSiteRepository.GetAll().First(x => x.Id == id);
+        var crawledSite = _crawledSiteRepository.GetCrawledSiteById(id);
 
-        return Mapper.CrawledSiteToViewModel(crawledSite);
+        var crawledSiteViewModel = Mapper.CrawledSiteToViewModel(crawledSite);
+
+        crawledSiteViewModel.SiteCrawlResult = crawledSite.CrawlResults.OrderBy(x => x.ResponseTimeMs)
+            .Select(x => Mapper.CrawledSiteResultToViewModel(x));
+
+        return crawledSiteViewModel;
     }
 
-    public IEnumerable<CrawledSiteResultViewModel> GetCrawledSiteResultsById(int id)
-    {
-        var crawledSiteResults = _crawlSiteResultRepository.GetAll().Where(x => x.CrawledSiteId == id).ToList();
-
-        return crawledSiteResults.Select(x => Mapper.CrawledSiteResultToViewModel(x));
-    }
-
-    public void SaveSiteCrawlResult(Uri baseUrl, IEnumerable<CrawledUrl> results)
+    public async Task SaveSiteCrawlResult(Uri baseUrl, IEnumerable<CrawledUrl> results)
     {
         var crawledSite = new CrawledSite()
         {
@@ -60,6 +59,6 @@ public class CrawlerRepositoryService
 
         _crawlSiteResultRepository.AddRange(siteUrlCrawlResults);
 
-        _crawledSiteRepository.SaveChanges();
+        await _crawledSiteRepository.SaveChangesAsync();
     }
 }

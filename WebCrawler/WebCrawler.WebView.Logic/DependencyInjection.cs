@@ -5,10 +5,10 @@ namespace WebCrawler.WebView.Logic;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWebCrawlerWebViewServices(this IServiceCollection services)
+    public static IServiceCollection AddWebViewServices(this IServiceCollection services)
     {
         services.AddScoped<CrawlerRepositoryService>();
-        services.AddScoped<WebCrawlerControllerService>();
+        services.AddScoped<WebCrawlerService>();
         return services;
     }
 }
