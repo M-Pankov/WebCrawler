@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebCrawler.Persistence.Entities;
 
 namespace WebCrawler.Persistence.Repositories;
@@ -12,14 +13,14 @@ public class CrawledSiteResultRepository : ICrawledSiteResultRepository
         _context = context;
     }
 
-    public void Add(CrawledSiteResult entity)
+    public async Task AddAsync(CrawledSiteResult entity)
     {
-        _context.Add(entity);
+       await _context.AddAsync(entity);
     }
 
-    public void AddRange(IEnumerable<CrawledSiteResult> results)
+    public async Task AddRangeAsync(IEnumerable<CrawledSiteResult> results)
     {
-        _context.AddRange(results);
+       await _context.AddRangeAsync(results);
     }
 
     public IQueryable<CrawledSiteResult> GetAll()
@@ -27,11 +28,11 @@ public class CrawledSiteResultRepository : ICrawledSiteResultRepository
         return _context.CrawledSiteResults;
     }
 
-    public int SaveChanges()
+    public async Task<int> SaveChangesAsync()
     {
         if (_context != null)
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
         return 0;
     }

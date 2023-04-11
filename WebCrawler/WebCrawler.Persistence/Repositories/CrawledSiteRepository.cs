@@ -13,9 +13,9 @@ public class CrawledSiteRepository : ICrawledSiteRepository
         _context = context;
     }
 
-    public void Add(CrawledSite entity)
+    public async Task AddAsync(CrawledSite entity)
     {
-        _context.CrawledSites.Add(entity);
+        await _context.CrawledSites.AddAsync(entity);
     }
 
     public IQueryable<CrawledSite> GetAll()
@@ -23,9 +23,9 @@ public class CrawledSiteRepository : ICrawledSiteRepository
         return _context.CrawledSites;
     }
 
-    public CrawledSite GetCrawledSiteById(int id)
+    public async Task<CrawledSite> GetCrawledSiteByIdAsync(int id)
     {
-        return _context.CrawledSites.Include(x => x.CrawlResults).FirstOrDefault(x => x.Id == id);
+        return await _context.CrawledSites.Include(x => x.CrawlResults).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<int> SaveChangesAsync()

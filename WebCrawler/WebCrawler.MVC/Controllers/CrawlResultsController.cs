@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebCrawler.WebView.Logic.Services;
 
 namespace WebCrawler.WebView.Controllers;
@@ -12,9 +13,9 @@ public class CrawlResultsController : Controller
         _webCrawlerService = webCrawlerService;
     }
 
-    public IActionResult SiteCrawlResult(int id)
+    public async Task<IActionResult> SiteCrawlResult(int id)
     {
-        var crawledSiteResult = _webCrawlerService.GetCrawledSiteResults(id);
+        var crawledSiteResult = await _webCrawlerService.GetCrawledSiteResultsAsync(id);
         return View(crawledSiteResult);
     }
 }

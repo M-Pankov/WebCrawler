@@ -6,8 +6,40 @@ namespace WebCrawler.WebView.Logic.Helpers;
 
 public class PagedList<T> : List<T>
 {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+    private int _pageNumber = 0;
+    public int PageNumber
+    {
+        get
+        {
+            return _pageNumber;
+        }
+
+        set
+        {
+            if (value > 0)
+            {
+                _pageNumber = value;
+            }
+        }
+    }
+
+    private int _pageSize = 5;
+    public int PageSize
+    {
+        get
+        {
+            return _pageSize;
+        }
+
+        set
+        {
+            if(value > 0)
+            {
+                _pageSize = value;
+            }
+        }
+    }
+
     public int TotalCount { get; set; }
     public int TotalPages { get; set; }
 
@@ -15,10 +47,10 @@ public class PagedList<T> : List<T>
     {
     }
 
-    public PagedList(IQueryable<T> source, int? pageNumber, int? pageSize)
+    public PagedList(IQueryable<T> source, int pageNumber, int pageSize)
     {
-        PageNumber = pageNumber ?? 0;
-        PageSize = pageSize ?? 5;
+        PageNumber = pageNumber;
+        PageSize = pageSize;
         TotalCount = source.Count();
         TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
 

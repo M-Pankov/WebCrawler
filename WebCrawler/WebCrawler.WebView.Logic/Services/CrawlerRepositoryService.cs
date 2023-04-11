@@ -27,9 +27,9 @@ public class CrawlerRepositoryService
         return crawledSites;
     }
 
-    public CrawledSiteViewModel GetCrawledSiteById(int id)
+    public async Task<CrawledSiteViewModel> GetCrawledSiteByIdAsync(int id)
     {
-        var crawledSite = _crawledSiteRepository.GetCrawledSiteById(id);
+        var crawledSite = await _crawledSiteRepository.GetCrawledSiteByIdAsync(id);
 
         var crawledSiteViewModel = Mapper.CrawledSiteToViewModel(crawledSite);
 
@@ -39,7 +39,7 @@ public class CrawlerRepositoryService
         return crawledSiteViewModel;
     }
 
-    public async Task SaveSiteCrawlResult(Uri baseUrl, IEnumerable<CrawledUrl> results)
+    public async Task SaveSiteCrawlResultAsync(Uri baseUrl, IEnumerable<CrawledUrl> results)
     {
         var crawledSite = new CrawledSite()
         {
@@ -47,7 +47,7 @@ public class CrawlerRepositoryService
             CrawlDate = DateTime.Now
         };
 
-        _crawledSiteRepository.Add(crawledSite);
+        await _crawledSiteRepository.AddAsync(crawledSite);
 
         var siteUrlCrawlResults = results.Select(x => new CrawledSiteResult()
         {
@@ -57,7 +57,7 @@ public class CrawlerRepositoryService
             CrawledSite = crawledSite,
         });
 
-        _crawlSiteResultRepository.AddRange(siteUrlCrawlResults);
+        await _crawlSiteResultRepository.AddRangeAsync(siteUrlCrawlResults);
 
         await _crawledSiteRepository.SaveChangesAsync();
     }

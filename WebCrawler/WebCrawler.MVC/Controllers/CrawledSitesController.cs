@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebCrawler.WebView.Logic.Services;
@@ -14,21 +15,31 @@ public class CrawledSitesController : Controller
         _webCrawlerService = webCrawlerService;
     }
 
-    public IActionResult Index(int? pageNumber, int? pageSize)
+    public IActionResult Index(int pageNumber, int pageSize)
     {
         var crawledSites = _webCrawlerService.GetCrawledSitesPagedList(pageNumber, pageSize);
 
         return View(crawledSites);
     }
 
-    public async Task<IActionResult> CrawlSite(string? input)
+    public async Task<IActionResult> CrawlSite(string input)
     {
-        if (!string.IsNullOrWhiteSpace(input))
+        try
         {
-            await _webCrawlerService.CrawlSite(input);
-        }
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new Exception("Invalid input value.");
+            }
 
-        return Redirect("Index");
+            await _webCrawlerService.CrawlSiteAsync(input);
+
+            return Redirect("Index");
+
+        }
+        catch(Exception ex) 
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     public IActionResult Error()

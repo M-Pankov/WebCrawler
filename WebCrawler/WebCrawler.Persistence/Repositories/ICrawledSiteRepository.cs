@@ -7,7 +7,7 @@ namespace WebCrawler.Persistence.Repositories;
 public interface ICrawledSiteRepository
 {
     IQueryable<CrawledSite> GetAll();
-    CrawledSite GetCrawledSiteById(int id);
-    void Add(CrawledSite entity);
+    Task<CrawledSite> GetCrawledSiteByIdAsync(int id);
+    Task AddAsync(CrawledSite entity);
     Task<int> SaveChangesAsync();
 }

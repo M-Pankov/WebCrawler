@@ -18,7 +18,7 @@ public class WebCrawlerService
         _crawler = crawler;
     }
 
-    public PagedList<CrawledSiteViewModel> GetCrawledSitesPagedList(int? pageNumber, int? pageSize)
+    public PagedList<CrawledSiteViewModel> GetCrawledSitesPagedList(int pageNumber, int pageSize)
     {
         var crawledSites = _crawlerRepositoryService.GetAllCrawledSites();
 
@@ -27,9 +27,9 @@ public class WebCrawlerService
         return crawledSitesList;
     }
 
-    public CrawledSiteViewModel GetCrawledSiteResults(int id)
+    public async Task<CrawledSiteViewModel> GetCrawledSiteResultsAsync(int id)
     {
-        var crawledSite = _crawlerRepositoryService.GetCrawledSiteById(id);
+        var crawledSite = await _crawlerRepositoryService.GetCrawledSiteByIdAsync(id);
 
         crawledSite.SiteCrawlResult = crawledSite.SiteCrawlResult;
         crawledSite.OnlySiteResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == WebCrawler.Logic.Enums.UrlFoundLocation.Site);
@@ -38,12 +38,12 @@ public class WebCrawlerService
         return crawledSite;
     }
 
-    public async Task CrawlSite(string input)
+    public async Task CrawlSiteAsync(string input)
     {
         var uriInput = new Uri(input);
 
         var crawlResult = await _crawler.CrawlUrlsAsync(uriInput);
 
-        await _crawlerRepositoryService.SaveSiteCrawlResult(uriInput, crawlResult);
+        await _crawlerRepositoryService.SaveSiteCrawlResultAsync(uriInput, crawlResult);
     }
 }
