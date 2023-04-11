@@ -35,7 +35,7 @@ public class CrawlerRepositoryService
 
     public IEnumerable<CrawledSiteResultViewModel> GetCrawledSiteResultsById(int id)
     {
-        var crawledSiteResults = _crawlSiteResultRepository.GetAll().Where(x => x.CrawledSiteId == id);
+        var crawledSiteResults = _crawlSiteResultRepository.GetAll().Where(x => x.CrawledSiteId == id).ToList();
 
         return crawledSiteResults.Select(x => Mapper.CrawledSiteResultToViewModel(x));
     }
