@@ -11,6 +11,11 @@ public class UrlValidator
             return false;
         }
 
+        if (input.Scheme != baseUrl.Scheme)
+        {
+            return false;
+        }
+
         if (input.LocalPath.Contains('.'))
         {
             return false;
