@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,12 +10,12 @@ namespace WebCrawler.Console.Services;
 
 public class CrawlerRepositoryService
 {
-    private readonly ICrawledSiteRepository _crawledSitesRepository;
-    private readonly ICrawledSiteResultRepository _siteUrlCrawlResultRepository;
-    public CrawlerRepositoryService(ICrawledSiteRepository crawledSitesRepository, ICrawledSiteResultRepository siteUrlCrawlResultRepository)
+    private readonly ICrawledSiteRepository _crawledSiteRepository;
+    private readonly ICrawledSiteResultRepository _crawledSiteResultRepository;
+    public CrawlerRepositoryService(ICrawledSiteRepository crawledSiteRepository, ICrawledSiteResultRepository crawledSiteResultRepositoryRepository)
     {
-        _crawledSitesRepository = crawledSitesRepository;
-        _siteUrlCrawlResultRepository = siteUrlCrawlResultRepository;
+        _crawledSiteRepository = crawledSiteRepository;
+        _crawledSiteResultRepository = crawledSiteResultRepositoryRepository;
     }
 
     public async Task SaveCrawlResultAsync(Uri uriInput, IEnumerable<CrawledUrl> results)
@@ -27,7 +26,7 @@ public class CrawlerRepositoryService
             CrawlDate = DateTime.Now
         };
 
-        _crawledSitesRepository.Add(crawledSite);
+        await _crawledSiteRepository.AddAsync(crawledSite);
 
         var siteUrlCrawlResults = results.Select(x => new CrawledSiteResult()
         {
@@ -37,8 +36,8 @@ public class CrawlerRepositoryService
             CrawledSite = crawledSite,
         });
 
-        _siteUrlCrawlResultRepository.AddRange(siteUrlCrawlResults);
+        await _crawledSiteResultRepository.AddRangeAsync(siteUrlCrawlResults);
 
-        await _crawledSitesRepository.SaveChangesAsync();
+        await _crawledSiteRepository.SaveChangesAsync();
     }
 }

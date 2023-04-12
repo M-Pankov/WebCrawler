@@ -15,12 +15,12 @@ public class CrawledSiteResultRepository : ICrawledSiteResultRepository
 
     public async Task AddAsync(CrawledSiteResult entity)
     {
-       await _context.AddAsync(entity);
+        await _context.AddAsync(entity);
     }
 
     public async Task AddRangeAsync(IEnumerable<CrawledSiteResult> results)
     {
-       await _context.AddRangeAsync(results);
+        await _context.AddRangeAsync(results);
     }
 
     public IQueryable<CrawledSiteResult> GetAll()

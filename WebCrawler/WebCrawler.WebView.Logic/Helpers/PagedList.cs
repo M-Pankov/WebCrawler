@@ -9,14 +9,11 @@ public class PagedList<T> : List<T>
     private int _pageNumber = 0;
     public int PageNumber
     {
-        get
-        {
-            return _pageNumber;
-        }
+        get => _pageNumber;
 
         set
         {
-            if (value > 0)
+            if (value >= 0)
             {
                 _pageNumber = value;
             }
@@ -26,14 +23,11 @@ public class PagedList<T> : List<T>
     private int _pageSize = 5;
     public int PageSize
     {
-        get
-        {
-            return _pageSize;
-        }
+        get => _pageSize;
 
         set
         {
-            if(value > 0)
+            if (value > 0)
             {
                 _pageSize = value;
             }

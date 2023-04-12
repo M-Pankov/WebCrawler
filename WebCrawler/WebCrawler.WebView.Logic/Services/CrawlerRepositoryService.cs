@@ -13,11 +13,12 @@ namespace WebCrawler.WebView.Logic.Services;
 public class CrawlerRepositoryService
 {
     private readonly ICrawledSiteRepository _crawledSiteRepository;
-    private readonly ICrawledSiteResultRepository _crawlSiteResultRepository;
-    public CrawlerRepositoryService(ICrawledSiteRepository crawledSiteRepository, ICrawledSiteResultRepository crawlSiteResultRepository)
+    private readonly ICrawledSiteResultRepository _crawledSiteResultRepository;
+
+    public CrawlerRepositoryService(ICrawledSiteRepository crawledSiteRepository, ICrawledSiteResultRepository crawledSiteResultRepository)
     {
         _crawledSiteRepository = crawledSiteRepository;
-        _crawlSiteResultRepository = crawlSiteResultRepository;
+        _crawledSiteResultRepository = crawledSiteResultRepository;
     }
 
     public IQueryable<CrawledSite> GetAllCrawledSites()
@@ -57,7 +58,7 @@ public class CrawlerRepositoryService
             CrawledSite = crawledSite,
         });
 
-        await _crawlSiteResultRepository.AddRangeAsync(siteUrlCrawlResults);
+        await _crawledSiteResultRepository.AddRangeAsync(siteUrlCrawlResults);
 
         await _crawledSiteRepository.SaveChangesAsync();
     }

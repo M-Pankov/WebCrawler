@@ -9,6 +9,7 @@ public static class DependencyInjection
     {
         services.AddScoped<CrawlerRepositoryService>();
         services.AddScoped<WebCrawlerService>();
+
         return services;
     }
 }

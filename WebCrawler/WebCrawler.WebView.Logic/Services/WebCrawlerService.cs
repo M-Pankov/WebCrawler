@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
+using WebCrawler.Logic.Enums;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.WebView.Logic.Helpers;
 using WebCrawler.WebView.Logic.ViewModels;
@@ -12,6 +13,7 @@ public class WebCrawlerService
 {
     private readonly CrawlerRepositoryService _crawlerRepositoryService;
     private readonly Crawler _crawler;
+
     public WebCrawlerService(CrawlerRepositoryService crawlerRepositoryService, Crawler crawler)
     {
         _crawlerRepositoryService = crawlerRepositoryService;
@@ -32,8 +34,8 @@ public class WebCrawlerService
         var crawledSite = await _crawlerRepositoryService.GetCrawledSiteByIdAsync(id);
 
         crawledSite.SiteCrawlResult = crawledSite.SiteCrawlResult;
-        crawledSite.OnlySiteResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == WebCrawler.Logic.Enums.UrlFoundLocation.Site);
-        crawledSite.OnlySitemapResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == WebCrawler.Logic.Enums.UrlFoundLocation.Sitemap);
+        crawledSite.OnlySiteResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site);
+        crawledSite.OnlySitemapResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap);
 
         return crawledSite;
     }
