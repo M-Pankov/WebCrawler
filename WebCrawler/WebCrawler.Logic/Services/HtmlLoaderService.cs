@@ -19,17 +19,30 @@ public class HtmlLoaderService
     {
         var stopwatch = new Stopwatch();
 
-        stopwatch.Restart();
-
-        var htmlString = await _httpClient.GetStringAsync(input);
-
-        stopwatch.Stop();
-
-        return new HttpResponse()
+        try
         {
-            HtmlContent = htmlString,
-            ResponseTimeMs = stopwatch.ElapsedMilliseconds
-        };
+            stopwatch.Restart();
 
+            var htmlString = await _httpClient.GetStringAsync(input);
+
+            stopwatch.Stop();
+
+            return new HttpResponse()
+            {
+                HtmlContent = htmlString,
+                ResponseTimeMs = stopwatch.ElapsedMilliseconds
+            };
+
+        }
+        catch (Exception ex)
+        {
+            stopwatch.Stop();
+
+            return new HttpResponse()
+            {
+                HtmlContent = "",
+                ResponseTimeMs = stopwatch.ElapsedMilliseconds
+            };
+        }
     }
 }
