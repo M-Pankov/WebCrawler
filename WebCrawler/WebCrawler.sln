@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Console.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Persistence", "WebCrawler.Persistence\WebCrawler.Persistence.csproj", "{BA2DFCD3-3F34-4D89-913F-196DB8DB07C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebView", "WebCrawler.MVC\WebCrawler.WebView.csproj", "{71E93984-63D9-4D37-88EF-A19BF392FFA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebView", "WebCrawler.WebView\WebCrawler.WebView.csproj", "{71E93984-63D9-4D37-88EF-A19BF392FFA0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebView.Logic", "WebCrawler.WebView.Logic\WebCrawler.WebView.Logic.csproj", "{CA025224-CFB9-495D-AB84-7E4AA9EB6DFB}"
 EndProject
