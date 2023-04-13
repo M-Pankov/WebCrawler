@@ -41,7 +41,7 @@ public class CrawledSitesController : Controller
         }
         catch(Exception ex) 
         {
-            return View("CrawlError",ex.Message);
+            return View("CrawlerError", ex.Message);
         }
     }
 
