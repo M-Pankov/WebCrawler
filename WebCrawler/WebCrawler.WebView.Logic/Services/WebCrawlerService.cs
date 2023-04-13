@@ -3,9 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Enums;
-using WebCrawler.Persistence.Entities;
-using WebCrawler.WebView.Logic.Helpers;
-using WebCrawler.WebView.Logic.Validators;
 using WebCrawler.WebView.Logic.ViewModels;
 
 namespace WebCrawler.WebView.Logic.Services;
@@ -19,11 +16,6 @@ public class WebCrawlerService
     {
         _crawlerRepositoryService = crawlerRepositoryService;
         _crawler = crawler;
-    }
-
-    public PagedList<CrawledSiteViewModel> GetCrawledSitesPagedList(int pageNumber, int pageSize)
-    {
-        return _crawlerRepositoryService.GetAllCrawledSites(pageNumber, pageSize);
     }
 
     public async Task<CrawledSiteViewModel> GetCrawledSiteResultsAsync(int id)

@@ -12,8 +12,8 @@ using WebCrawler.Persistence;
 namespace WebCrawler.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230413085845_initial")]
-    partial class initial
+    [Migration("20230413113743_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

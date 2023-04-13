@@ -10,15 +10,17 @@ namespace WebCrawler.WebView.Controllers;
 public class CrawledSitesController : Controller
 {
     private readonly WebCrawlerService _webCrawlerService;
+    private readonly CrawlerRepositoryService _crawlerRepositoryService;
 
-    public CrawledSitesController(WebCrawlerService webCrawlerService)
+    public CrawledSitesController(WebCrawlerService webCrawlerService, CrawlerRepositoryService crawlerRepositoryService)
     {
         _webCrawlerService = webCrawlerService;
+        _crawlerRepositoryService = crawlerRepositoryService;
     }
 
     public IActionResult Index(int pageNumber, int pageSize)
     {
-        var crawledSites = _webCrawlerService.GetCrawledSitesPagedList(pageNumber, pageSize);
+        var crawledSites = _crawlerRepositoryService.GetCrawledSitesPagedList(pageNumber, pageSize);
 
         return View(crawledSites);
     }

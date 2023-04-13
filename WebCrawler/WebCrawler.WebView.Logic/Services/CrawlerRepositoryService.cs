@@ -21,7 +21,7 @@ public class CrawlerRepositoryService
         _crawledSiteResultRepository = crawledSiteResultRepository;
     }
 
-    public PagedList<CrawledSiteViewModel> GetAllCrawledSites(int pageNumber, int pageSize)
+    public PagedList<CrawledSiteViewModel> GetCrawledSitesPagedList(int pageNumber, int pageSize)
     {
         var crawledSites = _crawledSiteRepository.GetAll().OrderByDescending(x => x.CrawlDate);
 
