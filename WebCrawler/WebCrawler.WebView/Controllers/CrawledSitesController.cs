@@ -39,9 +39,9 @@ public class CrawledSitesController : Controller
             return Redirect("Index");
 
         }
-        catch (Exception ex)
+        catch(Exception ex) 
         {
-            return View("CrawlError",ex.Message);
+            return BadRequest(ex.Message);
         }
     }
 
