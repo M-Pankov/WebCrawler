@@ -31,7 +31,7 @@ public class CrawledSitesController : Controller
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new Exception("Invalid input value.");
+                throw new Exception("Empty input value.");
             }
 
             await _webCrawlerService.CrawlSiteAsync(input);
@@ -41,7 +41,7 @@ public class CrawledSitesController : Controller
         }
         catch(Exception ex) 
         {
-            return BadRequest(ex.Message);
+            return View("CrawlError",ex.Message);
         }
     }
 
