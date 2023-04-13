@@ -13,7 +13,7 @@ public class CrawlResultsController : Controller
         _webCrawlerService = webCrawlerService;
     }
 
-    public async Task<IActionResult> SiteCrawlResult(int id)
+    public async Task<IActionResult> Index(int id)
     {
         var crawledSiteResult = await _webCrawlerService.GetCrawledSiteResultsAsync(id);
         return View(crawledSiteResult);

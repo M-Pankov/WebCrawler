@@ -6,24 +6,23 @@
     <div class="row">
         @using (Html.BeginForm("CrawlSite", "CrawledSites"))
         {
-            <table>
+            <table class="table-borderless">
                 <tr>
-                    <td>Enter a website: </td>
+                    <td> Enter a website: </td>
                     <td> <input type="text" name="input" /></td>
                     <td> <input class="btn btn-primary" type="submit" value="Test" /></td>
                 </tr>
             </table>
-            <br />
-
         }
     </div>
+    <br />
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Test Results</h2>
+            <h2 class="text-primary"> Test Results </h2>
         </div>
     </div>
     <br />
-    <table class="table table-bordered table-striped" style="width:100%">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>
@@ -35,15 +34,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model)
+            @foreach (var crawledSite in Model)
             {
                 <tr>
-                    <td width="50%">
-                        @obj.Url
+                    <td>
+                        @crawledSite.Url
                     </td>
-                    <td width="30%">@obj.CrawlDate</td>
-                    <td width="20%">
-                        <a asp-controller="CrawlResults" asp-action="SiteCrawlResult" asp-route-Id="@obj.Id" class="btn btn-primary mx-1">Show Details</a>
+                    <td>@crawledSite.CrawlDate</td>
+                    <td align="center">
+                        <a asp-controller="CrawlResults" asp-action="Index" asp-route-Id="@crawledSite.Id" class="btn btn-primary">Show Details</a>
                     </td>
                 </tr>
             }
@@ -54,7 +53,6 @@
         {
             <a asp-controller="CrawledSites" asp-action="Index"
            asp-route-pageNumber="@(Model.PageNumber - 1)" class="btn btn-primary"> Previous </a>
-
         }
         @if (!Model.HasPreviousPage)
         {

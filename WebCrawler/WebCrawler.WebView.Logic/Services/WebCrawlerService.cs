@@ -5,6 +5,7 @@ using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Enums;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.WebView.Logic.Helpers;
+using WebCrawler.WebView.Logic.Validators;
 using WebCrawler.WebView.Logic.ViewModels;
 
 namespace WebCrawler.WebView.Logic.Services;
@@ -22,20 +23,16 @@ public class WebCrawlerService
 
     public PagedList<CrawledSiteViewModel> GetCrawledSitesPagedList(int pageNumber, int pageSize)
     {
-        var crawledSites = _crawlerRepositoryService.GetAllCrawledSites();
-
-        var crawledSitesList = Mapper.CrawledSitesPagedListToViewModel(new PagedList<CrawledSite>(crawledSites, pageNumber, pageSize));
-
-        return crawledSitesList;
+        return _crawlerRepositoryService.GetAllCrawledSites(pageNumber, pageSize);
     }
 
     public async Task<CrawledSiteViewModel> GetCrawledSiteResultsAsync(int id)
     {
         var crawledSite = await _crawlerRepositoryService.GetCrawledSiteByIdAsync(id);
 
-        crawledSite.SiteCrawlResult = crawledSite.SiteCrawlResult;
-        crawledSite.OnlySiteResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site);
-        crawledSite.OnlySitemapResults = crawledSite.SiteCrawlResult.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap);
+        crawledSite.SiteCrawlResults = crawledSite.SiteCrawlResults;
+        crawledSite.OnlySiteResults = crawledSite.SiteCrawlResults.Where(x => x.UrlFoundLocation == UrlFoundLocation.Site);
+        crawledSite.OnlySitemapResults = crawledSite.SiteCrawlResults.Where(x => x.UrlFoundLocation == UrlFoundLocation.Sitemap);
 
         return crawledSite;
     }

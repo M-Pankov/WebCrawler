@@ -9,7 +9,7 @@
     </div>
     <br />
     <h2>Perfomance</h2>
-    <table class="table table-bordered table-striped" style="width:100%">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>
@@ -21,13 +21,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model.SiteCrawlResult)
+            @foreach (var crawledSiteResult in Model.SiteCrawlResults)
             {
                 <tr>
-                    <td width="70%">
-                        @obj.Url
+                    <td>
+                        @crawledSiteResult.Url
                     </td>
-                    <td width="30%">@obj.ResponseTimeMs</td>
+                    <td>@crawledSiteResult.ResponseTimeMs</td>
                 </tr>
             }
         </tbody>
@@ -36,7 +36,7 @@
     @if (Model.OnlySitemapResults.Any())
     {
         <h2>Urls not found at website :</h2>
-        <table class="table table-bordered table-striped" style="width:100%">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>
@@ -45,12 +45,11 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var obj in Model.OnlySitemapResults)
+                @foreach (var crawledSiteResult in Model.OnlySitemapResults)
                 {
                     <tr>
-                        <td width="100%">
-                            @obj.Url
+                        <td>
+                            @crawledSiteResult.Url
                         </td>
                     </tr>
                 }
@@ -60,15 +59,13 @@
 
     @if (!Model.OnlySitemapResults.Any())
     {
-
-        <h3 width="100%">Urls list founded in sitemap.xml but not founded after crawling a website is empty.</h3>
-
+        <h3 class="text-body">Urls list founded in sitemap.xml but not founded after crawling a website is empty.</h3>
     }
     <br />
     @if (Model.OnlySiteResults.Any())
     {
         <h2>Urls not found at sitemap.xml :</h2>
-        <table class="table table-bordered table-striped" style="width:100%">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>
@@ -77,12 +74,11 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var obj in Model.OnlySiteResults)
+                @foreach (var crawledSiteResult in Model.OnlySiteResults)
                 {
                     <tr>
                         <td width="100%">
-                            @obj.Url
+                            @crawledSiteResult.Url
                         </td>
                     </tr>
                 }
@@ -91,7 +87,7 @@
     }
     @if (!Model.OnlySiteResults.Any())
     {
-        <h3 width="100%">Urls list founded by crawling the website but not in sitemap.xml is empty.</h3>
+        <h3 class="text-body">Urls list founded by crawling the website but not in sitemap.xml is empty.</h3>
     }
 </div>
 

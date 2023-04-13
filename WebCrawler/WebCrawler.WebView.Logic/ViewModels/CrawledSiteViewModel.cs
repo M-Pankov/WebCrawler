@@ -7,11 +7,11 @@ public class CrawledSiteViewModel : BaseUrlViewModel
 {
     public CrawledSiteViewModel()
     {
-        SiteCrawlResult = new List<CrawledSiteResultViewModel>();
+        SiteCrawlResults = new List<CrawledSiteResultViewModel>();
         OnlySitemapResults = new List<CrawledSiteResultViewModel>();
         OnlySiteResults = new List<CrawledSiteResultViewModel>();
     }
-    public IEnumerable<CrawledSiteResultViewModel> SiteCrawlResult { get; set; }
+    public IEnumerable<CrawledSiteResultViewModel> SiteCrawlResults { get; set; }
     public IEnumerable<CrawledSiteResultViewModel> OnlySitemapResults { get; set; }
     public IEnumerable<CrawledSiteResultViewModel> OnlySiteResults { get; set; }
     public DateTime CrawlDate { get; set; }

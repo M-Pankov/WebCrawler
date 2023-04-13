@@ -21,11 +21,13 @@ public class CrawlerRepositoryService
         _crawledSiteResultRepository = crawledSiteResultRepository;
     }
 
-    public IQueryable<CrawledSite> GetAllCrawledSites()
+    public PagedList<CrawledSiteViewModel> GetAllCrawledSites(int pageNumber, int pageSize)
     {
         var crawledSites = _crawledSiteRepository.GetAll().OrderByDescending(x => x.CrawlDate);
 
-        return crawledSites;
+        var crawledSitesList = Mapper.CrawledSitesPagedListToViewModel(new PagedList<CrawledSite>(crawledSites, pageNumber, pageSize));
+
+        return crawledSitesList;
     }
 
     public async Task<CrawledSiteViewModel> GetCrawledSiteByIdAsync(int id)
@@ -34,7 +36,7 @@ public class CrawlerRepositoryService
 
         var crawledSiteViewModel = Mapper.CrawledSiteToViewModel(crawledSite);
 
-        crawledSiteViewModel.SiteCrawlResult = crawledSite.CrawlResults.OrderBy(x => x.ResponseTimeMs)
+        crawledSiteViewModel.SiteCrawlResults = crawledSite.CrawlResults.OrderBy(x => x.ResponseTimeMs)
             .Select(x => Mapper.CrawledSiteResultToViewModel(x));
 
         return crawledSiteViewModel;

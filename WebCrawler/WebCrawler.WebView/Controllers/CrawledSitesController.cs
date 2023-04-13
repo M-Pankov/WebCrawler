@@ -10,6 +10,7 @@ namespace WebCrawler.WebView.Controllers;
 public class CrawledSitesController : Controller
 {
     private readonly WebCrawlerService _webCrawlerService;
+
     public CrawledSitesController(WebCrawlerService webCrawlerService)
     {
         _webCrawlerService = webCrawlerService;
