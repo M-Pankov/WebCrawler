@@ -11,6 +11,7 @@ public class CrawledSiteRepository : ICrawledSiteRepository
     public CrawledSiteRepository(ApplicationDbContext context)
     {
         _context = context;
+        _context.Database.EnsureCreated();
     }
 
     public async Task AddAsync(CrawledSite entity)

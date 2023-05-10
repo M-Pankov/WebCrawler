@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using WebCrawler.Logic.Models;
 using WebCrawler.Persistence.Entities;
 using WebCrawler.Persistence.Repositories;
-using WebCrawler.WebView.Logic.Helpers;
-using WebCrawler.WebView.Logic.ViewModels;
+using WebCrawler.Web.Logic.Helpers;
+using WebCrawler.Web.Logic.ViewModels;
 
-namespace WebCrawler.WebView.Logic.Services;
+namespace WebCrawler.Web.Logic.Services;
 
 public class CrawlerRepositoryService
 {

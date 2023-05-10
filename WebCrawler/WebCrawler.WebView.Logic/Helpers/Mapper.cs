@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using WebCrawler.Persistence.Entities;
-using WebCrawler.WebView.Logic.ViewModels;
+using WebCrawler.Web.Logic.ViewModels;
 
-namespace WebCrawler.WebView.Logic.Helpers;
+namespace WebCrawler.Web.Logic.Helpers;
 
 public static class Mapper
 {

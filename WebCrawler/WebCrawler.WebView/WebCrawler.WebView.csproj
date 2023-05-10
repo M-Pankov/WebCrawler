@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebCrawler.Persistence\WebCrawler.Persistence.csproj" />
-    <ProjectReference Include="..\WebCrawler.WebView.Logic\WebCrawler.WebView.Logic.csproj" />
+    <ProjectReference Include="..\WebCrawler.WebView.Logic\WebCrawler.Web.Logic.csproj" />
   </ItemGroup>
 
 </Project>

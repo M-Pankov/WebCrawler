@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebCrawler.WebView.Logic.ViewModels;
+namespace WebCrawler.Web.Logic.ViewModels;
 
 public class CrawledSiteViewModel : BaseUrlViewModel
 {

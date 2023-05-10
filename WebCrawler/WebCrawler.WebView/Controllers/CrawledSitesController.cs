@@ -2,8 +2,8 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebCrawler.WebView.Logic.Services;
-using WebCrawler.WebView.Logic.ViewModels;
+using WebCrawler.Web.Logic.Services;
+using WebCrawler.Web.Logic.ViewModels;
 
 namespace WebCrawler.WebView.Controllers;
 
@@ -39,7 +39,7 @@ public class CrawledSitesController : Controller
             return Redirect("Index");
 
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
             return View("CrawlerError", ex.Message);
         }

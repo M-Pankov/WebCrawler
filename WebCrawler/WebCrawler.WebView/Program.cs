@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebCrawler.Logic;
 using WebCrawler.Persistence.Extensions;
-using WebCrawler.WebView.Logic;
+using WebCrawler.Web.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddLogicServices();
 builder.Services.AddDbServices(builder.Configuration);
-builder.Services.AddWebViewServices();
+builder.Services.AddWebServices();
 
 var app = builder.Build();
 

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Logic.Crawlers;
 using WebCrawler.Logic.Enums;
-using WebCrawler.WebView.Logic.ViewModels;
+using WebCrawler.Web.Logic.ViewModels;
 
-namespace WebCrawler.WebView.Logic.Services;
+namespace WebCrawler.Web.Logic.Services;
 
 public class WebCrawlerService
 {

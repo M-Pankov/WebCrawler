@@ -1,15 +1,15 @@
-﻿namespace WebCrawler.WebView.Logic.Validators;
+﻿namespace WebCrawler.Web.Logic.Validators;
 
 public static class PageValidator
 {
     public static int GetValidPageNumber(int pageNumber)
     {
-        if (pageNumber > 0)
+        if (pageNumber > 1)
         {
             return pageNumber;
         }
 
-        return 0;
+        return 1;
     }
 
     public static int GetValidPageSize(int pageSize)

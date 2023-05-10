@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebCrawler.WebView.Logic.Services;
+using WebCrawler.Web.Logic.Services;
 
 namespace WebCrawler.WebView.Controllers;
 
