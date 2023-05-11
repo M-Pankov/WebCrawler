@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.Web.Logic", "Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawler.WebApi", "WebCrawler.WebApi\WebCrawler.WebApi.csproj", "{80CE103C-80D5-4DC5-A876-6029A72FB27D}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "WebCrawler.Vue", "WebCrawler.Vue\WebCrawler.Vue.esproj", "{2783380B-36EA-4B07-B631-97237490714E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,12 @@ Global
 		{80CE103C-80D5-4DC5-A876-6029A72FB27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80CE103C-80D5-4DC5-A876-6029A72FB27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80CE103C-80D5-4DC5-A876-6029A72FB27D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2783380B-36EA-4B07-B631-97237490714E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace WebCrawler.Web.Logic.ViewModels;
+﻿namespace WebCrawler.WebView.ViewModels;
 
 public class ErrorViewModel
 {

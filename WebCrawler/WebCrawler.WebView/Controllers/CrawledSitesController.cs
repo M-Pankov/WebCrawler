@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebCrawler.Web.Logic.Services;
-using WebCrawler.Web.Logic.ViewModels;
+using WebCrawler.WebView.ViewModels;
 
 namespace WebCrawler.WebView.Controllers;
 
