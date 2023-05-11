@@ -34,8 +34,8 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "ToDo API",
-        Description = "An ASP.NET Core Web API for managing ToDo items",
+        Title = "Web Crawler API",
+        Description = "An ASP.NET Core Web API for crawling websites",
     });
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
