@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using WebCrawler.Logic;
 using WebCrawler.Persistence.Extensions;
 using WebCrawler.Web.Logic;
@@ -15,7 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(options =>
@@ -24,8 +29,7 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithExposedHeaders("Pagination");
+            .AllowAnyHeader();
                 
     });
 });

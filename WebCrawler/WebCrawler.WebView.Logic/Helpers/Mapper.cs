@@ -29,16 +29,14 @@ public static class Mapper
 
     public static PagedList<CrawledSiteViewModel> CrawledSitesPagedListToViewModel(PagedList<CrawledSite> crawledSites)
     {
-        var pagedList = new PagedList<CrawledSiteViewModel>()
+        return new PagedList<CrawledSiteViewModel>()
         {
             TotalCount = crawledSites.TotalCount,
             TotalPages = crawledSites.TotalPages,
             PageNumber = crawledSites.PageNumber,
             PageSize = crawledSites.PageSize,
+            Items = crawledSites.Items.Select(x => CrawledSiteToViewModel(x)).ToList()
         };
 
-        pagedList.AddRange(crawledSites.Select(x => CrawledSiteToViewModel(x)));
-
-        return pagedList;
     }
 }

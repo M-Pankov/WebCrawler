@@ -1,6 +1,6 @@
 import {createRouter,createWebHistory} from 'vue-router'
-import CrawledSites from '@/components/CrawledSites.vue'
-import CrawledSiteResults from '@/components/CrawledSiteResult.vue'
+import CrawledSites from '@/views/CrawledSites.vue'
+import CrawledSiteResults from '@/views/CrawledSiteResult.vue'
 
 const router = createRouter({
     history: createWebHistory(),
