@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
         builder.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader();
-                
+
     });
 });
 builder.Services.AddSwaggerGen(options =>

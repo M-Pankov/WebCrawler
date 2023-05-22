@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebCrawler.Web.Logic.Validators;
@@ -31,5 +30,5 @@ public class PagedList<T>
 
     public bool HasPreviousPage => (PageNumber > 1);
 
-    public bool HasNextPage => (PageNumber + 1 < TotalPages);
+    public bool HasNextPage => (PageNumber < TotalPages);
 }

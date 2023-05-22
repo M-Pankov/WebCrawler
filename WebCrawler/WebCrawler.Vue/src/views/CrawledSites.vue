@@ -10,6 +10,7 @@
                     <input type="text" class="form-control" placeholder="Enter a website" v-model="inputUrl" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <button type="submit" class="btn btn-primary" :disabled="isCrawling"  id="button-addon2"> Test </button>
                 </div>
+                <span v-if="error" class="text-danger">{{ error }}</span>
              </form>
         </div>
     <br />
@@ -83,29 +84,43 @@
                 },
                 methods: {
                     async crawlSite() {
+                        try{
+                            
+                            this.isCrawling = true;
+                            await apiService.postCrawlSite(this.inputUrl);
 
-                        this.isCrawling = true;
-
-                        await apiService.postCrawlSite(this.inputUrl);
-
+                        }catch(e)
+                        {
+                            this.error = 'Error occurred while crawling the website.';
+                        }finally
+                        {
+                            
+                            this.isCrawling = false;
+                        }
+                       
                         this.getCrawledSites();
-
-                        this.isCrawling = false;
                     },
                     async getCrawledSites(page: number = 1, pageSize: number = 5) {
-
+                        try{
+                            this.isCrawling = true;
                             const response = await apiService.getCrawledSites(page,pageSize);
                             const data = response.data;
 
                             Object.assign(this, {
                             crawledSites: data.items,
-                            hasNextPage: data.hasNextPage,
-                            hasPreviousPage: data.hasPreviousPage,
+                            hasNextPage: data.hasNextPage as boolean,
+                            hasPreviousPage: data.hasPreviousPage as boolean,
                             pageSize: data.pageSize,
                             pageNumber: data.pageNumber
                             })
-                            
+
+                        }catch(e)
+                        {
+                            this.error = 'Error occurred while calling api.';   
+                        }finally
+                        {
                             this.isCrawling = false;
+                        } 
                     },
                     formatDate(date: string) {
                         return new Date(date).toLocaleString()

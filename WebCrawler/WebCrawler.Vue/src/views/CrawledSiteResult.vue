@@ -5,6 +5,7 @@
         <div class="col-6">
             <h3 class="text">Results for: {{ crawledSite?.url }}</h3>
             <h4 class="text">Crawl date: {{ formatDate(crawledSite?.crawlDate!) }} </h4>
+            <span v-if="error" class="text-danger">{{ error }}</span>
         </div>
     </div>
     <br />
@@ -88,8 +89,10 @@
                 props: ['id'],
                 data() {
                     const crawledSite = ref<CrawledSite>();
+                    const error = ref('');
                     return {
-                        crawledSite
+                        crawledSite,
+                        error
                     }
                 },
                 created() {
@@ -97,11 +100,15 @@
                 },
                 methods: {
                     async getCrawlSiteResult() {
-                            
+                        try{
                             const response = await apiService.getCrawledSiteResults(this.id);
                             Object.assign(this, {
                             crawledSite: response.data
                             })
+                        }catch(e)
+                        {
+                            this.error = 'Error occurred while calling api.';
+                        }
                     },
                     formatDate(date: string) {
                         return new Date(date).toLocaleString()
