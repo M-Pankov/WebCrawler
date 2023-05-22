@@ -22,7 +22,7 @@ namespace WebCrawler.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebCrawler.Persistence.Entities.CrawledSite", b =>
+            modelBuilder.Entity("WebCrawler.Domain.CrawlResults.CrawledSite", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace WebCrawler.Persistence.Migrations
                     b.ToTable("CrawledSites");
                 });
 
-            modelBuilder.Entity("WebCrawler.Persistence.Entities.CrawledSiteResult", b =>
+            modelBuilder.Entity("WebCrawler.Domain.CrawlResults.CrawledSiteUrl", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,12 +67,12 @@ namespace WebCrawler.Persistence.Migrations
 
                     b.HasIndex("CrawledSiteId");
 
-                    b.ToTable("CrawledSiteResults");
+                    b.ToTable("CrawledSiteUrls");
                 });
 
-            modelBuilder.Entity("WebCrawler.Persistence.Entities.CrawledSiteResult", b =>
+            modelBuilder.Entity("WebCrawler.Domain.CrawlResults.CrawledSiteUrl", b =>
                 {
-                    b.HasOne("WebCrawler.Persistence.Entities.CrawledSite", "CrawledSite")
+                    b.HasOne("WebCrawler.Domain.CrawlResults.CrawledSite", "CrawledSite")
                         .WithMany("CrawlResults")
                         .HasForeignKey("CrawledSiteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -81,7 +81,7 @@ namespace WebCrawler.Persistence.Migrations
                     b.Navigation("CrawledSite");
                 });
 
-            modelBuilder.Entity("WebCrawler.Persistence.Entities.CrawledSite", b =>
+            modelBuilder.Entity("WebCrawler.Domain.CrawlResults.CrawledSite", b =>
                 {
                     b.Navigation("CrawlResults");
                 });

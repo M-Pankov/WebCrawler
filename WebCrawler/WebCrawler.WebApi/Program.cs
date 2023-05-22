@@ -6,21 +6,15 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
-using WebCrawler.Logic;
-using WebCrawler.Persistence.Extensions;
-using WebCrawler.Web.Logic;
-using WebCrawler.WebApi.Middleware;
+using WebCrawler.InfrastructureIoC;
+using WebCrawler.Presentation.WebApi.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    options.JsonSerializerOptions.WriteIndented = true;
-});
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(options =>
@@ -45,9 +39,10 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-builder.Services.AddLogicServices();
-builder.Services.AddDbServices(builder.Configuration);
-builder.Services.AddWebServices();
+builder.Services.RegisterCrawlers();
+builder.Services.RegisterDbContext(builder.Configuration);
+builder.Services.RegisterCrawlerServices();
+
 
 var app = builder.Build();
 

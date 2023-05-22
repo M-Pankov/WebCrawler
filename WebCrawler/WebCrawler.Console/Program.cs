@@ -2,10 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
-using WebCrawler.Logic;
-using WebCrawler.Persistence.Extensions;
+using WebCrawler.InfrastructureIoC;
+using WebCrawler.Presentation.Console;
+using WebCrawler.Presentation.Console.Services;
 
-namespace WebCrawler.Console;
+namespace WebCrawler.Presentation.Console;
 public class Program
 {
     public static async Task Main(string[] args)
@@ -25,8 +26,10 @@ public class Program
         })
         .ConfigureServices((builderContext, services) =>
         {
-            services.AddLogicServices();
-            services.AddDbServices(builderContext.Configuration);
-            services.AddWebCrawlerConsoleServices();
+            services.RegisterCrawlers();
+            services.RegisterDbContext(builderContext.Configuration);
+            services.RegisterCrawlerServices();
+            services.AddScoped<ConsoleService>();
+            services.AddScoped<ConsoleWebCrawler>();
         });
 }

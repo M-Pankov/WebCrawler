@@ -4,13 +4,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebCrawler.Console.Services;
-using WebCrawler.Logic.Crawlers;
-using WebCrawler.Logic.Enums;
-using WebCrawler.Logic.Models;
-using WebCrawler.Logic.Parsers;
-using WebCrawler.Logic.Services;
-using WebCrawler.Logic.Validators;
-using WebCrawler.Persistence.Repositories;
 using Xunit;
 
 namespace WebCrawler.Console.Tests;

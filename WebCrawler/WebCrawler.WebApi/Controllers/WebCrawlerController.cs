@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebCrawler.Web.Logic.Helpers;
-using WebCrawler.Web.Logic.Services;
-using WebCrawler.Web.Logic.ViewModels;
+using WebCrawler.Application.Crawler;
+using WebCrawler.Application.Crawler.Helpers;
+using WebCrawler.Application.Crawler.Models;
 
-namespace WebCrawler.WebApi.Controllers;
+namespace WebCrawler.Presentation.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class WebCrawlerController : ControllerBase
 {
-    private readonly WebCrawlerService _webCrawlerService;
-    private readonly CrawlerRepositoryService _crawlerRepositoryService;
+    private readonly CrawlerService _crawlerService;
 
-    public WebCrawlerController(WebCrawlerService webCrawlerService, CrawlerRepositoryService crawlerRepositoryService)
+    public WebCrawlerController(CrawlerService crawlerService)
     {
-        _webCrawlerService = webCrawlerService;
-        _crawlerRepositoryService = crawlerRepositoryService;
+        _crawlerService = crawlerService;
     }
 
     /// <summary>
@@ -27,11 +25,11 @@ public class WebCrawlerController : ControllerBase
     /// <param name="pageSize">The number of sites per page (default: 5).</param>
     /// <returns>A paginated list of crawled sites.</returns>
     [HttpGet("crawled-sites")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<CrawledSiteViewModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<CrawledSiteDto>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult CrawledSites(int pageNumber, int pageSize)
     {
-        var crawledSites = _crawlerRepositoryService.GetCrawledSitesPagedList(pageNumber, pageSize);
+        var crawledSites = _crawlerService.GetCrawledSitesPagedList(pageNumber, pageSize);
         return Ok(crawledSites);
     }
 
@@ -41,11 +39,11 @@ public class WebCrawlerController : ControllerBase
     /// <param name="id">The crawled site id.</param>
     /// <returns> List of Urls with timings.</returns>
     [HttpGet("crawled-sites/{id}/results")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CrawledSiteViewModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CrawledSiteDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CrawledSiteResults(int id)
     {
-        var crawledSiteResult = await _webCrawlerService.GetCrawledSiteResultsAsync(id);
+        var crawledSiteResult = await _crawlerService.GetCrawledSiteResultsAsync(id);
 
         return Ok(crawledSiteResult);
     }
@@ -58,7 +56,7 @@ public class WebCrawlerController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CrawlSite(string? uriString)
     {
-        await _webCrawlerService.CrawlSiteAsync(uriString);
+        await _crawlerService.CrawlSiteAsync(uriString);
 
         return Ok();
     }

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebCrawler.Console\WebCrawler.Console.csproj" />
+    <ProjectReference Include="..\WebCrawler.Console\WebCrawler.Presentation.Console.csproj" />
   </ItemGroup>
 
 </Project>

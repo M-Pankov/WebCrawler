@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace WebCrawler.WebApi.Middleware;
+namespace WebCrawler.Presentation.WebApi.Middleware;
 
 public class ExceptionMiddleware
 {

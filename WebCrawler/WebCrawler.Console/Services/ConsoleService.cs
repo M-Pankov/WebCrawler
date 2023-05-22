@@ -1,4 +1,4 @@
-﻿namespace WebCrawler.Console.Services;
+﻿namespace WebCrawler.Presentation.Console.Services;
 
 public class ConsoleService
 {

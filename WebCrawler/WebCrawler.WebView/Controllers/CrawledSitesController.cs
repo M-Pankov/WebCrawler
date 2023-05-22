@@ -2,25 +2,23 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebCrawler.Web.Logic.Services;
-using WebCrawler.WebView.ViewModels;
+using WebCrawler.Application.Crawler;
+using WebCrawler.Presentation.WebView.ViewModels;
 
-namespace WebCrawler.WebView.Controllers;
+namespace WebCrawler.Presentation.WebView.Controllers;
 
 public class CrawledSitesController : Controller
 {
-    private readonly WebCrawlerService _webCrawlerService;
-    private readonly CrawlerRepositoryService _crawlerRepositoryService;
+    private readonly CrawlerService _crawlerService;
 
-    public CrawledSitesController(WebCrawlerService webCrawlerService, CrawlerRepositoryService crawlerRepositoryService)
+    public CrawledSitesController(CrawlerService crawlerService)
     {
-        _webCrawlerService = webCrawlerService;
-        _crawlerRepositoryService = crawlerRepositoryService;
+        _crawlerService = crawlerService;
     }
 
     public IActionResult Index(int pageNumber, int pageSize)
     {
-        var crawledSites = _crawlerRepositoryService.GetCrawledSitesPagedList(pageNumber, pageSize);
+        var crawledSites = _crawlerService.GetCrawledSitesPagedList(pageNumber, pageSize);
 
         return View(crawledSites);
     }
@@ -34,7 +32,7 @@ public class CrawledSitesController : Controller
                 throw new Exception("Empty input value.");
             }
 
-            await _webCrawlerService.CrawlSiteAsync(input);
+            await _crawlerService.CrawlSiteAsync(input);
 
             return Redirect("Index");
 

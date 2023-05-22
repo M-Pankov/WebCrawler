@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using WebCrawler.Persistence.Entities;
+using WebCrawler.Domain.CrawlResults;
 
 namespace WebCrawler.Persistence;
 
@@ -11,7 +11,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<CrawledSite> CrawledSites { get; set; }
-    public DbSet<CrawledSiteResult> CrawledSiteResults { get; set; }
+    public DbSet<CrawledSiteUrl> CrawledSiteUrls { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
