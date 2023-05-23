@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace WebCrawler.Application.Crawler.Loaders;
+namespace WebCrawler.Application.Loaders;
 
 public class SiteMapLoader
 {

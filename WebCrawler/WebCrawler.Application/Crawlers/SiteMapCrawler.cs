@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using WebCrawler.Application.Crawler.Loaders;
-using WebCrawler.Domain.CrawlerModels;
+using WebCrawler.Application.Loaders;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawler.CrawlServices;
+namespace WebCrawler.Application.Crawlers;
 
-public class SiteMapCrawlService
+public class SiteMapCrawler
 {
     private readonly SiteMapLoader _sitemapLoaderService;
 
-    public SiteMapCrawlService(SiteMapLoader sitemapLoader)
+    public SiteMapCrawler(SiteMapLoader sitemapLoader)
     {
         _sitemapLoaderService = sitemapLoader;
     }

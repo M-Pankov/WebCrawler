@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler.Interfaces;
+using WebCrawler.Application.Interfaces;
 using WebCrawler.Domain.CrawlResults;
 
 namespace WebCrawler.Persistence.CrawlResults.Repositories;

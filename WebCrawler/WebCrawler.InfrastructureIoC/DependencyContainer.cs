@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebCrawler.Application.Crawler;
-using WebCrawler.Application.Crawler.CrawlServices;
-using WebCrawler.Application.Crawler.Interfaces;
-using WebCrawler.Application.Crawler.Loaders;
-using WebCrawler.Application.Crawler.Parsers;
-using WebCrawler.Application.Crawler.Validators;
+using WebCrawler.Application;
+using WebCrawler.Application.Crawlers;
+using WebCrawler.Application.Interfaces;
+using WebCrawler.Application.Loaders;
+using WebCrawler.Application.Parsers;
+using WebCrawler.Application.Validators;
 using WebCrawler.Persistence;
 using WebCrawler.Persistence.CrawlResults.Repositories;
 
@@ -30,9 +30,9 @@ public static class DependencyContainer
         services.AddScoped<HtmlLoader>();
         services.AddScoped<SiteMapLoader>();
         services.AddScoped<HtmlParser>();
-        services.AddScoped<SiteMapCrawlService>();
-        services.AddScoped<SiteCrawlService>();
-        services.AddScoped<CrawlService>();
+        services.AddScoped<SiteMapCrawler>();
+        services.AddScoped<SiteCrawler>();
+        services.AddScoped<Crawler>();
 
         return services;
     }

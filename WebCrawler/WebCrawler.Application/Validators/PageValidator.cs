@@ -1,4 +1,4 @@
-﻿namespace WebCrawler.Application.Crawler.Validators;
+﻿namespace WebCrawler.Application.Validators;
 
 public static class PageValidator
 {

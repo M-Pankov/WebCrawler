@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler;
-using WebCrawler.Application.Crawler.Helpers;
-using WebCrawler.Application.Crawler.Models;
+using WebCrawler.Application;
+using WebCrawler.Application.Helpers;
+using WebCrawler.Application.Models;
 
 namespace WebCrawler.Presentation.WebApi.Controllers;
 

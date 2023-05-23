@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler.Loaders;
+using WebCrawler.Application.Loaders;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawler.CrawlServices;
+namespace WebCrawler.Application.Crawlers;
 
-public class CrawlService
+public class Crawler
 {
-    private readonly SiteCrawlService _siteCrawlService;
-    private readonly SiteMapCrawlService _siteMapCrawlService;
+    private readonly SiteCrawler _siteCrawler;
+    private readonly SiteMapCrawler _siteMapCrawler;
     private readonly HtmlLoader _htmlLoader;
-    public CrawlService(SiteCrawlService siteCrawlService, SiteMapCrawlService siteMapCrawlService, HtmlLoader htmlLoader)
+    public Crawler(SiteCrawler siteCrawler, SiteMapCrawler siteMapCrawler, HtmlLoader htmlLoader)
     {
         _htmlLoader = htmlLoader;
-        _siteMapCrawlService = siteMapCrawlService;
-        _siteCrawlService = siteCrawlService;
+        _siteMapCrawler = siteMapCrawler;
+        _siteCrawler = siteCrawler;
     }
 
     public virtual async Task<IEnumerable<CrawledSiteUrl>> CrawlUrlsAsync(Uri input)
     {
-        var siteUrls = await _siteCrawlService.CrawlSiteAsync(input);
+        var siteUrls = await _siteCrawler.CrawlSiteAsync(input);
 
-        var sitemapUrls = await _siteMapCrawlService.CrawlSitemapAsync(input);
+        var sitemapUrls = await _siteMapCrawler.CrawlSitemapAsync(input);
 
         var allUrls = GetAllUrls(siteUrls, sitemapUrls);
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler;
+using WebCrawler.Application;
 
 namespace WebCrawler.Presentation.WebView.Controllers;
 

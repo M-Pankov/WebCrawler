@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebCrawler.Application.Crawler.Models;
+namespace WebCrawler.Application.Models;
 
 public class BaseUrlDto
 {

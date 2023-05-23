@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler;
+using WebCrawler.Application;
 using WebCrawler.Presentation.WebView.ViewModels;
 
 namespace WebCrawler.Presentation.WebView.Controllers;

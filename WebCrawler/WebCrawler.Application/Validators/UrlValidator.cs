@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebCrawler.Application.Crawler.Validators;
+namespace WebCrawler.Application.Validators;
 
 public class UrlValidator
 {

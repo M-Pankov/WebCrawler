@@ -1,6 +1,6 @@
 ﻿using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawler.Models;
+namespace WebCrawler.Application.Models;
 
 public class CrawledSiteUrlDto : BaseUrlDto
 {

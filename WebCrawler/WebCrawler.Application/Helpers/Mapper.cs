@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCrawler.Application.Crawler.Models;
+﻿using System.Linq;
+using WebCrawler.Application.Models;
 using WebCrawler.Domain.CrawlResults;
 
-namespace WebCrawler.Application.Crawler.Helpers;
+namespace WebCrawler.Application.Helpers;
 
 public static class Mapper
 {

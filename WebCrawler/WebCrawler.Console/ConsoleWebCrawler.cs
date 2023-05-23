@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler;
-using WebCrawler.Application.Crawler.Models;
+using WebCrawler.Application;
+using WebCrawler.Application.Models;
 using WebCrawler.Domain.Enums;
 using WebCrawler.Presentation.Console.Services;
 

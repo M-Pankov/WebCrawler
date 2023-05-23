@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using WebCrawler.Domain.CrawlResults;
 
-namespace WebCrawler.Application.Crawler.Interfaces;
+namespace WebCrawler.Application.Interfaces;
 
 public interface ICrawledSiteRepository
 {

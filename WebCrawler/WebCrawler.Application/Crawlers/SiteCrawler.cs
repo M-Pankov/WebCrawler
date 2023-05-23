@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawler.Loaders;
-using WebCrawler.Application.Crawler.Parsers;
-using WebCrawler.Application.Crawler.Validators;
-using WebCrawler.Domain.CrawlerModels;
+using WebCrawler.Application.Loaders;
+using WebCrawler.Application.Parsers;
+using WebCrawler.Application.Validators;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawler.CrawlServices;
+namespace WebCrawler.Application.Crawlers;
 
-public class SiteCrawlService
+public class SiteCrawler
 {
     private readonly HtmlParser _htmlParser;
     private readonly UrlValidator _urlValidator;
     private readonly HtmlLoader _htmlLoader;
 
-    public SiteCrawlService(HtmlParser htmlParser, UrlValidator urlValidator, HtmlLoader htmlLoader)
+    public SiteCrawler(HtmlParser htmlParser, UrlValidator urlValidator, HtmlLoader htmlLoader)
     {
         _htmlParser = htmlParser;
         _urlValidator = urlValidator;

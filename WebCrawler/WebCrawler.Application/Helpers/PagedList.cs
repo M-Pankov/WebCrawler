@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebCrawler.Application.Crawler.Validators;
+using WebCrawler.Application.Validators;
 
-namespace WebCrawler.Application.Crawler.Helpers;
+namespace WebCrawler.Application.Helpers;
 
 public class PagedList<T>
 {
