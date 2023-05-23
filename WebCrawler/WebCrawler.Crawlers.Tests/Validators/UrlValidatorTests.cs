@@ -1,8 +1,8 @@
 ﻿using System;
-using WebCrawler.Application.Validators;
+using WebCrawler.Crawlers.Validators;
 using Xunit;
 
-namespace WebCrawler.Application.Tests.Validators;
+namespace WebCrawler.Crawlers.Tests.Validators;
 
 public class UrlValidatorTests
 {

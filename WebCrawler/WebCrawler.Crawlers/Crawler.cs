@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Loaders;
+using WebCrawler.Application.Interfaces;
+using WebCrawler.Crawlers.Loaders;
+using WebCrawler.Crawlers.SubCrawlers;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawlers;
+namespace WebCrawler.Crawlers;
 
-public class Crawler
+public class Crawler : ICrawler
 {
     private readonly SiteCrawler _siteCrawler;
     private readonly SiteMapCrawler _siteMapCrawler;

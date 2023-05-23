@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Loaders;
-using WebCrawler.Application.Parsers;
-using WebCrawler.Application.Validators;
+using WebCrawler.Crawlers.Loaders;
+using WebCrawler.Crawlers.Parsers;
+using WebCrawler.Crawlers.Validators;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawlers;
+namespace WebCrawler.Crawlers.SubCrawlers;
 
 public class SiteCrawler
 {

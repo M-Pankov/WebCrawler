@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using WebCrawler.Application.Crawlers;
-using WebCrawler.Application.Loaders;
-using WebCrawler.Application.Parsers;
-using WebCrawler.Application.Validators;
+using WebCrawler.Crawlers.Loaders;
+using WebCrawler.Crawlers.Parsers;
+using WebCrawler.Crawlers.SubCrawlers;
+using WebCrawler.Crawlers.Validators;
 using WebCrawler.Domain.CrawlerModels;
 using WebCrawler.Domain.Enums;
 using Xunit;
 
-namespace WebCrawler.Application.Tests.Crawlers;
+namespace WebCrawler.Crawlers.Tests.SubCrawlers;
 
 public class SiteCrawlerTests
 {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebCrawler.Domain.CrawlResults;
 
-namespace WebCrawler.Persistence.CrawlResults.Configurations;
+namespace WebCrawler.Persistence.Configurations;
 
 internal class CrawledSiteUrlConfiguration : IEntityTypeConfiguration<CrawledSiteUrl>
 {

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System;
-using WebCrawler.Application.Parsers;
-using Xunit;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using WebCrawler.Crawlers.Parsers;
+using Xunit;
 
-namespace WebCrawler.Application.Tests.Parsers;
+namespace WebCrawler.Crawlers.Tests.Parsers;
 
 public class HtmlParserTests
 {

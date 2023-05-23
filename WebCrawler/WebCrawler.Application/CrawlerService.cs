@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawlers;
 using WebCrawler.Application.Helpers;
 using WebCrawler.Application.Interfaces;
 using WebCrawler.Application.Models;
@@ -15,8 +14,8 @@ public class CrawlerService
 {
     private readonly ICrawledSiteRepository _crawledSiteRepository;
     private readonly ICrawledSiteUrlRepository _crawledSiteUrlRepository;
-    private readonly Crawler _crawler;
-    public CrawlerService(ICrawledSiteRepository crawledSiteRepository, ICrawledSiteUrlRepository crawledSiteUrlRepository, Crawler crawler)
+    private readonly ICrawler _crawler;
+    public CrawlerService(ICrawledSiteRepository crawledSiteRepository, ICrawledSiteUrlRepository crawledSiteUrlRepository, ICrawler crawler)
     {
         _crawledSiteRepository = crawledSiteRepository;
         _crawledSiteUrlRepository = crawledSiteUrlRepository;

@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebCrawler.Application;
-using WebCrawler.Application.Crawlers;
 using WebCrawler.Application.Interfaces;
-using WebCrawler.Application.Loaders;
-using WebCrawler.Application.Parsers;
-using WebCrawler.Application.Validators;
+using WebCrawler.Crawlers;
+using WebCrawler.Crawlers.Loaders;
+using WebCrawler.Crawlers.Parsers;
+using WebCrawler.Crawlers.SubCrawlers;
+using WebCrawler.Crawlers.Validators;
 using WebCrawler.Persistence;
-using WebCrawler.Persistence.CrawlResults.Repositories;
+using WebCrawler.Persistence.Repositories;
 
 namespace WebCrawler.InfrastructureIoC;
 
@@ -32,7 +33,7 @@ public static class DependencyContainer
         services.AddScoped<HtmlParser>();
         services.AddScoped<SiteMapCrawler>();
         services.AddScoped<SiteCrawler>();
-        services.AddScoped<Crawler>();
+        services.AddScoped<ICrawler, Crawler>();
 
         return services;
     }

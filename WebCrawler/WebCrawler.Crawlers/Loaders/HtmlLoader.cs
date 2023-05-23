@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebCrawler.Domain.CrawlerModels;
 
-namespace WebCrawler.Application.Loaders;
+namespace WebCrawler.Crawlers.Loaders;
 
 public class HtmlLoader
 {

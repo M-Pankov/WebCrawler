@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Application.Crawlers;
-using WebCrawler.Application.Loaders;
+using WebCrawler.Crawlers.Loaders;
+using WebCrawler.Crawlers.SubCrawlers;
 using WebCrawler.Domain.Enums;
 using Xunit;
 
-namespace WebCrawler.Application.Tests.Crawlers;
+namespace WebCrawler.Crawlers.Tests.SubCrawlers;
 
 public class SiteMapCrawlerTests
 {

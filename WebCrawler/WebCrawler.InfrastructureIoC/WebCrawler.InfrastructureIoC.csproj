@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebCrawler.Application\WebCrawler.Application.csproj" />
+    <ProjectReference Include="..\WebCrawler.Crawlers\WebCrawler.Crawlers.csproj" />
     <ProjectReference Include="..\WebCrawler.Persistence\WebCrawler.Persistence.csproj" />
   </ItemGroup>
 

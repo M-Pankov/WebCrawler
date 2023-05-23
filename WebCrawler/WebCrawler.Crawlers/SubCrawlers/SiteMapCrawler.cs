@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using WebCrawler.Application.Loaders;
+using WebCrawler.Crawlers.Loaders;
 using WebCrawler.Domain.CrawlResults;
 using WebCrawler.Domain.Enums;
 
-namespace WebCrawler.Application.Crawlers;
+namespace WebCrawler.Crawlers.SubCrawlers;
 
 public class SiteMapCrawler
 {

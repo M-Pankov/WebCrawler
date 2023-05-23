@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebCrawler.Application.Interfaces;
 using WebCrawler.Domain.CrawlResults;
 
-namespace WebCrawler.Persistence.CrawlResults.Repositories;
+namespace WebCrawler.Persistence.Repositories;
 
 public class CrawledSiteUrlRepository : ICrawledSiteUrlRepository
 {
