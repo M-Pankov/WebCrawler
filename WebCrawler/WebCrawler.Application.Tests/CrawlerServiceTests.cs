@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebCrawler.Application.Tests
+namespace WebCrawler.Application.Tests;
+
+public class CrawlerServiceTests
 {
-    internal class CrawlerServiceTests
-    {
-    }
 }
