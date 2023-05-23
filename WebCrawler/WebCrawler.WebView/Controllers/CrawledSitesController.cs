@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Application;
-using WebCrawler.Application.Helpers;
 using WebCrawler.Presentation.WebView.ViewModels;
 
 namespace WebCrawler.Presentation.WebView.Controllers;
